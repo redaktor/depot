@@ -1,7 +1,7 @@
 Depot
 =====
 
-A PHP [Tent][1] implementation.
+Depot is a PHP implementation of the [Tent][1] protocol.
 
 
 License
