@@ -51,10 +51,6 @@ class GuzzleHttpClient implements HttpClientInterface
         $headers = $this->massageHeaders($headers);
     }
 
-    public function with(AuthInterface $auth, $callback)
-    {
-    }
-
     protected function massageHeaders($headers = null)
     {
         if (null === $headers) {

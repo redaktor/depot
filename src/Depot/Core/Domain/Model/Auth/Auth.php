@@ -24,7 +24,7 @@ class Auth implements AuthInterface
 
     public function macKey()
     {
-        return $this->macKey();
+        return $this->macKey;
     }
 
     public function macAlgorithm()

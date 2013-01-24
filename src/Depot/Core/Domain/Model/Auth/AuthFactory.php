@@ -4,18 +4,18 @@ namespace Depot\Core\Domain\Model\Auth;
 
 class AuthFactory
 {
-    public function generate()
+    public static function generate()
     {
         // generate a new Auth from random information
     }
 
-    public function anonymous()
+    public static function anonymous()
     {
         // return a fixed anonymous auth
         return new Auth(0, 0, 0, true);
     }
 
-    public function create($macKeyId, $macKey, $macAlgorithm)
+    public static function create($macKeyId, $macKey, $macAlgorithm)
     {
         return new Auth($macKeyId, $macKey, $macAlgorithm);
     }

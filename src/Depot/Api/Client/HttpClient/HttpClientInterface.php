@@ -11,5 +11,4 @@ interface HttpClientInterface
     public function post($uri, $headers = null, $payload = null);
     public function put($uri, $headers = null, $payload = null);
     public function delete($uri, $headers = null);
-    public function with(AuthInterface $auth, $callback);
 }
