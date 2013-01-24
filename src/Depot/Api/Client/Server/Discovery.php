@@ -117,6 +117,8 @@ class Discovery
      * Given a url and the parent resource url that contains that first url,
      * make sure the url is normalized to an absolute url.
      *
+     * Originally from Tent PHP Client (c) Benjamin Eberlei
+     *
      * @param string $url
      * @param string $parentUrl
      *
