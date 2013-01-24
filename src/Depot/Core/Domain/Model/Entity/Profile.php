@@ -4,7 +4,9 @@ namespace Depot\Core\Domain\Model\Entity;
 
 class Profile implements ProfileInterface
 {
-    public function typeUris()
+    protected $types;
+
+    public function types()
     {
         return array_keys($this->types);
     }

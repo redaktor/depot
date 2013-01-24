@@ -3,10 +3,7 @@
 namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\HttpClientInterface;
-use Depot\Core\Domain\Model\Entity\Entity;
-use Depot\Core\Domain\Model\Entity\Profile;
-use Depot\Core\Domain\Model\Entity\ProfileType;
-use Depot\Core\Domain\Model\Server\Server;
+use Depot\Core\Domain\Model;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Discovery
@@ -41,27 +38,18 @@ class Discovery
 
                 $json = json_decode($response->body(), true);
 
-                if ( ! isset($json['https://tent.io/types/info/core/v0.1.0']['entity'])) {
-                    // Ignore this (for now; try the next profile)
+                $profile = Profile::createProfileFromJson($json);
+
+                if (null === $profile) {
                     continue;
                 }
 
-                if ( ! isset($json['https://tent.io/types/info/core/v0.1.0']['servers'])) {
-                    // Ignore this (for now; try the next profile)
-                    continue;
-                }
-
-                $profile = new Profile;
-                foreach ($json as $type => $content) {
-                    $profile->set(new ProfileType($type, $content));
-                }
-
-                $entity = new Entity(
+                $entity = new Model\Entity\Entity(
                     $json['https://tent.io/types/info/core/v0.1.0']['entity'],
                     $profile
                 );
 
-                return new Server($entity);
+                return new Model\Server\Server($entity);
             } catch (\Exception $e) {
                 // Ignore this (for now; we want to try all profiles)
                 continue;

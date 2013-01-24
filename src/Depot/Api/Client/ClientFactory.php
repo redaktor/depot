@@ -14,7 +14,8 @@ class ClientFactory
         }
 
         return new Client(
-            new Server\Discovery($httpClient)
+            new Server\Discovery($httpClient),
+            new Server\Profile($httpClient)
         );
     }
 }

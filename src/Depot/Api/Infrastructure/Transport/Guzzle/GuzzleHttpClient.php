@@ -25,24 +25,45 @@ class GuzzleHttpClient implements HttpClientInterface
 
     public function get($uri, $headers = null)
     {
+        $headers = $this->massageHeaders($headers);
+
         return new GuzzleHttpResponse(
-            $this->client->get($uri)->send()
+            $this->client->get($uri, $headers)->send()
         );
     }
 
     public function post($uri, $headers = null, $payload = null)
     {
+        $headers = $this->massageHeaders($headers);
     }
 
     public function put($uri, $headers = null, $payload = null)
     {
+        $headers = $this->massageHeaders($headers);
+
+        return new GuzzleHttpResponse(
+            $this->client->put($uri, $headers, $payload)->send()
+        );
     }
 
     public function delete($uri, $headers = null)
     {
+        $headers = $this->massageHeaders($headers);
     }
 
     public function with(AuthInterface $auth, $callback)
     {
+    }
+
+    protected function massageHeaders($headers = null)
+    {
+        if (null === $headers) {
+            $headers = array();
+        }
+
+        $headers['Content-Type'] = 'application/vnd.tent.v0+json';
+        $headers['Accept'] = 'application/vnd.tent.v0+json';
+
+        return $headers;
     }
 }
