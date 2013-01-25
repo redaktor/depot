@@ -20,7 +20,8 @@ class ClientFactory
         return new Client(
             $httpClient,
             new Server\Discovery($httpClient),
-            new Server\Profile($httpClient)
+            new Server\Profile($httpClient),
+            new Server\App($httpClient)
         );
     }
 }

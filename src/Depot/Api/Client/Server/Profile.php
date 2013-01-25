@@ -4,7 +4,6 @@ namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Core\Domain\Model;
-use Symfony\Component\DomCrawler\Crawler;
 
 class Profile
 {
@@ -85,7 +84,7 @@ class Profile
             json_encode($profileType->content())
         );
 
-        $profileType = new Model\Entity\ProfileType($type, json_decode($response->body(), true));
+        $profileType = new Model\Entity\ProfileType($profileType->uri(), json_decode($response->body(), true));
 
         $server->entity()->profile()->set($profileType);
 

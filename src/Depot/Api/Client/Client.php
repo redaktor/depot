@@ -12,11 +12,12 @@ class Client
     protected $discovery;
     protected $profile;
 
-    public function __construct(HttpClientInterface $httpClient, Server\Discovery $discovery, Server\Profile $profile)
+    public function __construct(HttpClientInterface $httpClient, Server\Discovery $discovery, Server\Profile $profile, Server\App $app)
     {
         $this->httpClient = $httpClient;
         $this->discovery = $discovery;
         $this->profile = $profile;
+        $this->app = $app;
     }
 
     public function discover($uri)
@@ -27,6 +28,11 @@ class Client
     public function profile()
     {
         return $this->profile;
+    }
+
+    public function app()
+    {
+        return $this->app;
     }
 
     public function authenticate(AuthInterface $auth)

@@ -35,6 +35,10 @@ class GuzzleHttpClient implements HttpClientInterface
     public function post($uri, $headers = null, $payload = null)
     {
         $headers = $this->massageHeaders($headers);
+
+        return new GuzzleHttpResponse(
+            $this->client->post($uri, $headers, $payload)->send()
+        );
     }
 
     public function put($uri, $headers = null, $payload = null)
@@ -57,8 +61,13 @@ class GuzzleHttpClient implements HttpClientInterface
             $headers = array();
         }
 
-        $headers['Content-Type'] = 'application/vnd.tent.v0+json';
-        $headers['Accept'] = 'application/vnd.tent.v0+json';
+        if (! isset($headers['Content-Type'])) {
+            $headers['Content-Type'] = 'application/vnd.tent.v0+json';
+        }
+
+        if (! isset($headers['Accept'])) {
+            $headers['Accept'] = 'application/vnd.tent.v0+json';
+        }
 
         return $headers;
     }

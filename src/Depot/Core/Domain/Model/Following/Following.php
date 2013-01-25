@@ -79,15 +79,15 @@ class Following implements FollowingInterface
         return $this->remoteId;
     }
 
-    public function confirmed()
+    public function isConfirmed()
     {
-        return $this->confirmed;
+        return $this->isConfirmed;
     }
 
     public function confirm(AuthInterface $auth, $remoteId, array $licenses, array $types)
     {
         $this->updateAuth($auth, $remoteId, $licenses, $types);
-        $this->confirmed = true;
+        $this->isconfirmed = true;
     }
 
     public function createdAt()
