@@ -2,33 +2,28 @@
 
 namespace Depot\Core\Domain\Model\App;
 
-class AuthorizationAuth implements AuthorizationAuthInterface
+use Depot\Core\Domain\Model\Auth\AuthInterface;
+
+class ClientAuthorizationResponse
 {
-    protected $registeredApp;
-    protected $authorization;
+    protected $clientApp;
     protected $auth;
     protected $tokenType;
     protected $refreshToken;
     protected $expiresAt;
 
-    public function __construct(RegisteredAppInterface $registeredApp, /*AuthorizationInterface $authorization, */ AuthInterface $auth, $tokenType, $refreshToken, $expiresAt)
+    public function __construct(ClientAppInterface $clientApp, AuthInterface $auth, $tokenType, $refreshToken, $expiresAt = null)
     {
-        $this->registeredApp = $registeredApp;
-        //$this->authorization = $authorization;
+        $this->clientApp = $clientApp;
         $this->auth = $auth;
         $this->tokenType = $tokenType;
         $this->refreshToken = $refreshToken;
         $this->expiresAt = $expiresAt;
     }
 
-    public function registeredApp()
+    public function clientApp()
     {
-        return $this->registeredApp;
-    }
-
-    public function authorization()
-    {
-        return $this->authorization;
+        return $this->clientApp;
     }
 
     public function auth()

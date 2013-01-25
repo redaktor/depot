@@ -20,17 +20,14 @@ class App
         return ServerHelper::tryAllServers($server, array($this, 'registerInternal'), array($app));
     }
 
-    public function generateAuthorizationRequest(Model\Server\ServerInterface $server, Model\App\RegisteredAppAuthInterface $registeredAppAuth, $redirectUri, $scopes, $profileTypes, $postTypes)
+    public function generateClientAuthorizationRequest(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp, $redirectUri, $scopes, $profileTypes, $postTypes)
     {
         list ($apiRoot) = $server->servers();
-
-        $registeredApp = $registeredAppAuth->registeredApp();
-        $auth = $registeredAppAuth->auth();
 
         $state  = str_replace(array('/', '+', '='), '', base64_encode(openssl_random_pseudo_bytes(64)));
 
         $params = array(
-            'client_id' => $registeredApp->id(),
+            'client_id' => $clientApp->id(),
             'redirect_uri' => $redirectUri,
             'scope' => implode(',', $scopes),
             'state' => $state,
@@ -38,28 +35,24 @@ class App
             'tent_post_types' => implode(',', $postTypes),
         );
 
-        return new Model\App\AuthorizationRequest(
+        return new Model\App\ClientAuthorizationRequest(
+            $clientApp,
             $state,
             $apiRoot.'/oauth/authorize?'.http_build_query($params)
         );
     }
 
-    public function exchangeCode(Model\Server\ServerInterface $server, Model\App\RegisteredAppAuthInterface $registeredAppAuth, $code)
+    public function exchangeCode(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp, $code)
     {
         list ($apiRoot) = $server->servers();
-
-        $registeredApp = $registeredAppAuth->registeredApp();
-        $auth = $registeredAppAuth->auth();
 
         $payload = array(
             'code' => $code,
             'token_type' => 'mac',
         );
 
-        //$httpClient = new AuthenticatedHttpClient($this->httpClient, $auth);
-
         $response = $this->httpClient->post(
-            $apiRoot.'/apps/'.$registeredApp->id().'/authorizations',
+            $apiRoot.'/apps/'.$clientApp->id().'/authorizations',
             null,
             json_encode($payload)
         );
@@ -68,8 +61,8 @@ class App
 
         print_r($json);
 
-        return new Model\App\AuthorizationAuth(
-            $registeredApp,
+        return new Model\App\ClientAuthorizationResponse(
+            $clientApp,
             Model\Auth\AuthFactory::create(
                 $json['access_token'],
                 $json['mac_key'],
@@ -96,16 +89,13 @@ class App
 
         $json = json_decode($response->body(), true);
 
-        $registeredApp = new Model\App\RegisteredApp(
+        $app = new Model\App\App(
             $json['name'],
             $json['description'],
             $json['url'],
             $json['icon'],
             $json['redirect_uris'],
-            $json['scopes'],
-            $json['id'],
-            $json['authorizations'],
-            $json['created_at']
+            $json['scopes']
         );
 
         $auth = Model\Auth\AuthFactory::create(
@@ -114,6 +104,12 @@ class App
             $json['mac_algorithm']
         );
 
-        return new Model\App\RegisteredAppAuth($registeredApp, $auth);
+        return new Model\App\AppRegistrationCreationResponse(
+            $json['id'],
+            $app,
+            $auth,
+            $json['authorizations'],
+            $json['created_at']
+        );
     }
 }
