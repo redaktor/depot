@@ -59,8 +59,6 @@ class App
 
         $json = json_decode($response->body(), true);
 
-        print_r($json);
-
         return new Model\App\ClientAuthorizationResponse(
             $clientApp,
             Model\Auth\AuthFactory::create(
