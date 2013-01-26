@@ -12,10 +12,10 @@ class AuthFactory
     public static function anonymous()
     {
         // return a fixed anonymous auth
-        return new Auth(0, 0, 0, true);
+        return new Auth(0, 0, null, true);
     }
 
-    public static function create($macKeyId, $macKey, $macAlgorithm)
+    public static function create($macKeyId, $macKey, $macAlgorithm = null)
     {
         return new Auth($macKeyId, $macKey, $macAlgorithm);
     }

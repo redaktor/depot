@@ -11,7 +11,7 @@ class ClientApp implements ClientAppInterface
     protected $auth;
     protected $createdAt;
 
-    public function __construct($id, $app, AuthInterface $auth, $createdAt = null)
+    public function __construct($id, AppInterface $app, AuthInterface $auth, $createdAt = null)
     {
         $this->id = $id;
         $this->app = $app;
@@ -32,6 +32,11 @@ class ClientApp implements ClientAppInterface
     public function auth()
     {
         return $this->auth;
+    }
+
+    public function replaceApp(AppInterface $app)
+    {
+        $this->app = $app;
     }
 
     public function createdAt()

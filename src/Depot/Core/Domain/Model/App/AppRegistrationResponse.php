@@ -5,7 +5,7 @@ namespace Depot\Core\Domain\Model\App;
 class AppRegistrationResponse
 {
     protected $id;
-    protected $auth;
+    protected $app;
     protected $minimumAuthorizations;
     protected $createdAt;
 
@@ -13,7 +13,6 @@ class AppRegistrationResponse
     {
         $this->id = $id;
         $this->app = $app;
-        $this->auth = $auth;
         $this->minimumAuthorizations = $minimumAuthorizations;
         $this->createdAt = $createdAt;
     }

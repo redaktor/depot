@@ -15,7 +15,7 @@ class App
         $this->httpClient = $httpClient;
     }
 
-    public function register(Model\Server\ServerInterface $server, Model\App\App $app)
+    public function register(Model\Server\ServerInterface $server, Model\App\AppInterface $app)
     {
         return ServerHelper::tryAllServers($server, array($this, 'registerInternal'), array($app));
     }
@@ -72,7 +72,17 @@ class App
         );
     }
 
-    public function registerInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\App $app)
+    public function get(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp)
+    {
+        return ServerHelper::tryAllServers($server, array($this, 'getInternal'), array($clientApp));
+    }
+
+    public function put(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp)
+    {
+        return ServerHelper::tryAllServers($server, array($this, 'putInternal'), array($clientApp));
+    }
+
+    public function registerInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\AppInterface $app)
     {
         $payload = array(
             'name' => $app->name(),
@@ -106,6 +116,67 @@ class App
             $json['id'],
             $app,
             $auth,
+            $json['authorizations'],
+            $json['created_at']
+        );
+    }
+
+    public function getInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
+    {
+        $response = $this->httpClient->get($apiRoot.'/apps/'.$clientApp->id());
+
+        $json = json_decode($response->body(), true);
+
+        $app = new Model\App\App(
+            $json['name'],
+            $json['description'],
+            $json['url'],
+            $json['icon'],
+            $json['redirect_uris'],
+            $json['scopes']
+        );
+
+        $clientApp->replaceApp($app);
+
+        return new Model\App\AppRegistrationResponse(
+            $json['id'],
+            $app,
+            $json['authorizations'],
+            $json['created_at']
+        );
+    }
+
+    public function putInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
+    {
+        $app = $clientApp->app();
+
+        $payload = array(
+            'name' => $app->name(),
+            'description' => $app->description(),
+            'url' => $app->url(),
+            'icon' => $app->icon(),
+            'redirect_uris' => $app->redirectUris(),
+            'scopes' => $app->scopes(),
+        );
+
+        $response = $this->httpClient->put($apiRoot.'/apps/'.$clientApp->id(), null, json_encode($payload));
+
+        $json = json_decode($response->body(), true);
+
+        $app = new Model\App\App(
+            $json['name'],
+            $json['description'],
+            $json['url'],
+            $json['icon'],
+            $json['redirect_uris'],
+            $json['scopes']
+        );
+
+        $clientApp->replaceApp($app);
+
+        return new Model\App\AppRegistrationResponse(
+            $json['id'],
+            $app,
             $json['authorizations'],
             $json['created_at']
         );

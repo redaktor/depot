@@ -9,11 +9,11 @@ class Auth implements AuthInterface
     protected $macAlgorithm;
     protected $isAnonymous;
 
-    public function __construct($macKeyId, $macKey, $macAlgorithm, $isAnonymous = false)
+    public function __construct($macKeyId, $macKey, $macAlgorithm = null, $isAnonymous = false)
     {
         $this->macKeyId = $macKeyId;
         $this->macKey = $macKey;
-        $this->macAlgorithm = $macAlgorithm;
+        $this->macAlgorithm = $macAlgorithm ?: 'hmac-sha-256';
         $this->isAnonymous = $isAnonymous;
     }
 

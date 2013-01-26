@@ -50,4 +50,16 @@ class App implements AppInterface
     {
         return $this->scopes;
     }
+
+    public function removeScope($scope)
+    {
+        if (isset($this->scopes[$scope])) {
+            unset($this->scopes[$scope]);
+        }
+    }
+
+    public function setScope($scope, $value)
+    {
+        $this->scopes[$scope] = $value;
+    }
 }
