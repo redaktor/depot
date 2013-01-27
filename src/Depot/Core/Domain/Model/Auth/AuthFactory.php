@@ -2,20 +2,31 @@
 
 namespace Depot\Core\Domain\Model\Auth;
 
+use Depot\Core\Domain\Service\Secret;
+
 class AuthFactory
 {
-    public static function generate()
+    protected $secretGenerator;
+
+    public function __construct(Secret\SecretGeneratorInterface $secretGenerator = null)
     {
-        // generate a new Auth from random information
+        $this->secretGenerator = $secretGenerator ?: new Secret\UuidSecretGenerator;
     }
 
-    public static function anonymous()
+    public function generate()
     {
-        // return a fixed anonymous auth
+        return new Auth(
+            $this->secretGenerator->generate(),
+            $this->secretGenerator->generate()
+        );
+    }
+
+    public function anonymous()
+    {
         return new Auth(0, 0, null, true);
     }
 
-    public static function create($macKeyId, $macKey, $macAlgorithm = null)
+    public function create($macKeyId, $macKey, $macAlgorithm = null)
     {
         return new Auth($macKeyId, $macKey, $macAlgorithm);
     }

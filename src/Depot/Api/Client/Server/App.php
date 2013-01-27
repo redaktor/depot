@@ -10,9 +10,10 @@ class App
 {
     protected $httpClient;
 
-    public function __construct(HttpClientInterface $httpClient)
+    public function __construct(HttpClientInterface $httpClient, Model\Auth\AuthFactory $authFactory)
     {
         $this->httpClient = $httpClient;
+        $this->authFactory = $authFactory;
     }
 
     public function register(Model\Server\ServerInterface $server, Model\App\AppInterface $app)
@@ -61,7 +62,7 @@ class App
 
         return new Model\App\ClientAuthorizationResponse(
             $clientApp,
-            Model\Auth\AuthFactory::create(
+            $this->authFactory->create(
                 $json['access_token'],
                 $json['mac_key'],
                 $json['mac_algorithm']
@@ -106,7 +107,7 @@ class App
             $json['scopes']
         );
 
-        $auth = Model\Auth\AuthFactory::create(
+        $auth = $this->authFactory->create(
             $json['mac_key_id'],
             $json['mac_key'],
             $json['mac_algorithm']

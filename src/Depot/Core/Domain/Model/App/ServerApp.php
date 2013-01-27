@@ -41,6 +41,12 @@ class ServerApp implements ServerAppInterface
         return $this->authorizations;
     }
 
+    public function minimumAuthorizations()
+    {
+        // TODO: This should translate authorizations to minim
+        return $this->authorizations();
+    }
+
     public function createdAt()
     {
         return $this->createdAt;

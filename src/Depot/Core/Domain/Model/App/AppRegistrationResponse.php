@@ -36,4 +36,14 @@ class AppRegistrationResponse
     {
         return $this->createdAt;
     }
+
+    public static function createFromServerApp(ServerAppInterface $serverApp)
+    {
+        return new AppRegistrationResponse(
+            $serverApp->id(),
+            $serverApp->app(),
+            $serverApp->minimumAuthorizations(),
+            $serverApp->createdAt()
+        );
+    }
 }
