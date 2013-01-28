@@ -5,7 +5,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Depot\Api\Client;
 
 if (count($argv) < 2) {
-    print "Usage: register-app.php [entity_uri]\n";
+    echo "Usage: check-profile-anonymous.php [entity_uri]\n";
     exit;
 }
 
