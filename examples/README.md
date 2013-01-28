@@ -44,7 +44,7 @@ actually connect to a target entity's server.
 
 ### register-app.php [entity_uri]
 
-This script will discovery `[entity_uri]` and attempt to register
+This script will discover `[entity_uri]` and attempt to register
 and authorize an application with the entity's server. Example:
 
     php register-app.php https://depot-testapp.tent.is
@@ -79,6 +79,14 @@ A dump of the app response after putting a change to the app is displayed
 as there is nothing really interesting or useful going on here. Nothing
 that makes sense to display, anyway. :)
 
+
+### check-profile-anonymous.php
+
+This script will discover `[entity_uri]` and will present the user with a
+list of profile types the entity has associated with it and the detailed
+output of the basic and core profiles.
+
+    php check-profile-anonymous.php https://depot-testapp.tent.is
 
 
 Community
