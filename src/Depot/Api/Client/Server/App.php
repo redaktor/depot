@@ -5,15 +5,17 @@ namespace Depot\Api\Client\Server;
 use Depot\Api\Client\HttpClient\AuthenticatedHttpClient;
 use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Core\Domain\Model;
+use Depot\Core\Domain\Service\Random\RandomInterface;
 
 class App
 {
     protected $httpClient;
 
-    public function __construct(HttpClientInterface $httpClient, Model\Auth\AuthFactory $authFactory)
+    public function __construct(HttpClientInterface $httpClient, Model\Auth\AuthFactory $authFactory, RandomInterface $random)
     {
         $this->httpClient = $httpClient;
         $this->authFactory = $authFactory;
+        $this->random = $random;
     }
 
     public function register(Model\Server\ServerInterface $server, Model\App\AppInterface $app)
@@ -25,7 +27,7 @@ class App
     {
         list ($apiRoot) = $server->servers();
 
-        $state  = str_replace(array('/', '+', '='), '', base64_encode(openssl_random_pseudo_bytes(64)));
+        $state  = $this->random->generateUrlSafeBase64(32);
 
         $params = array(
             'client_id' => $clientApp->id(),
