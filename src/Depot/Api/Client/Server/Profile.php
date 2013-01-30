@@ -16,32 +16,17 @@ class Profile
 
     public function getProfile(Model\Server\ServerInterface $server)
     {
-        return $this->tryAllServers($server, array($this, 'getProfileInternal'));
+        return ServerHelper::tryAllServers($server, array($this, 'getProfileInternal'));
     }
 
     public function getProfileType(Model\Server\ServerInterface $server, $type)
     {
-        return $this->tryAllServers($server, array($this, 'getProfileTypeInternal'), array($type));
+        return ServerHelper::tryAllServers($server, array($this, 'getProfileTypeInternal'), array($type));
     }
 
     public function putProfileType(Model\Server\ServerInterface $server, Model\Entity\ProfileTypeInterface $profileType)
     {
-        return $this->tryAllServers($server, array($this, 'putProfileTypeInternal'), array($profileType));
-    }
-
-    protected function tryAllServers(Model\Server\ServerInterface $server, $callback, $additionalArgs = null)
-    {
-        foreach ($server->servers() as $target) {
-            $args = array($server, $target);
-
-            if (null !== $additionalArgs) {
-                $args = array_merge($args, $additionalArgs);
-            }
-
-            return call_user_func_array($callback, $args);
-        }
-
-        throw new \RuntimeException("Unable to send to any server");
+        return ServerHelper::tryAllServers($server, array($this, 'putProfileTypeInternal'), array($profileType));
     }
 
     public function getProfileInternal(Model\Server\ServerInterface $server, $apiRoot)
