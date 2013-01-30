@@ -21,7 +21,13 @@ class GuzzleHttpResponse implements HttpResponseInterface
 
     public function header($header)
     {
-        return $this->response->getHeader($header);
+        $guzzleHeader = $this->response->getHeader($header);
+
+        if ($guzzleHeader) {
+            return explode($guzzleHeader->getGlue(), $guzzleHeader);
+        }
+
+        return array();
     }
 
     public function body()

@@ -47,14 +47,14 @@ $client = Client\ClientFactory::create();
 // Find the Server (Entity container)
 $server = $client->discover($appConfig['entity_uri']);
 
-$appRegistrationResponse = $client->authenticate($auth)->app()->get(
+$appRegistrationResponse = $client->authenticate($auth)->app()->getApps(
     $server,
     $clientApp
 );
 
 $clientApp->app()->setScope('write_profile', 'Write all the profiles (changed)');
 
-$appRegistrationResponse = $client->authenticate($auth)->app()->put(
+$appRegistrationResponse = $client->authenticate($auth)->app()->putApps(
     $server,
     $clientApp
 );

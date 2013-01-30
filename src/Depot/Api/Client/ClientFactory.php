@@ -29,7 +29,8 @@ class ClientFactory
             $httpClient,
             new Server\Discovery($httpClient),
             new Server\Profile($httpClient),
-            new Server\App($httpClient, $authFactory, $random)
+            new Server\App($httpClient, $authFactory, $random),
+            new Server\Post($httpClient)
         );
     }
 }

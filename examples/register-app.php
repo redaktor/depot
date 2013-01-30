@@ -15,6 +15,8 @@ $app = new App\App(
     array(
         'read_profile' => 'Read all the profiles',
         'write_profile' => 'Write all the profiles',
+        'read_posts' => 'Read all the posts',
+        'write_posts' => 'Write all the posts',
     )
 );
 
@@ -52,9 +54,17 @@ $clientAuthorizationRequest = $client->app()->generateClientAuthorizationRequest
     $server,
     $clientApp,
     $redirectUri, // TODO: Not needed if using configured defaults
-    array('read_profile', 'write_profile'), // TODO: Not needed if using configured defaults
-    array('all'),
-    array('all')
+    array('read_profile', 'write_profile', 'read_posts', 'write_posts'), // TODO: Not needed if using configured defaults
+    array(
+        'https://tent.io/types/info/basic/v0.1.0',
+    ),
+    array(
+        'https://tent.io/types/post/status/v0.1.0',
+        'https://tent.io/types/post/essay/v0.1.0',
+        'https://tent.io/types/post/repost/v0.1.0',
+        'https://tent.io/types/post/follower/v0.1.0',
+        'https://tent.io/types/post/following/v0.1.0',
+    )
 );
 
 print "Please open this URL and enter the code and state embedded in the redirect link\n\n";
