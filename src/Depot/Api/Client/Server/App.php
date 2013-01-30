@@ -10,6 +10,8 @@ use Depot\Core\Domain\Service\Random\RandomInterface;
 class App
 {
     protected $httpClient;
+    protected $authFactory;
+    protected $random;
 
     public function __construct(HttpClientInterface $httpClient, Model\Auth\AuthFactory $authFactory, RandomInterface $random)
     {
