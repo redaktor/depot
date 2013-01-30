@@ -77,14 +77,14 @@ class App
         );
     }
 
-    public function get(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp)
+    public function getApp(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp)
     {
-        return ServerHelper::tryAllServers($server, array($this, 'getInternal'), array($clientApp));
+        return ServerHelper::tryAllServers($server, array($this, 'getAppInternal'), array($clientApp));
     }
 
-    public function put(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp)
+    public function putApp(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp)
     {
-        return ServerHelper::tryAllServers($server, array($this, 'putInternal'), array($clientApp));
+        return ServerHelper::tryAllServers($server, array($this, 'putAppInternal'), array($clientApp));
     }
 
     public function registerInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\AppInterface $app)
@@ -126,7 +126,7 @@ class App
         );
     }
 
-    public function getInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
+    public function getAppInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
     {
         $response = $this->httpClient->get($apiRoot.'/apps/'.$clientApp->id());
 
@@ -151,7 +151,7 @@ class App
         );
     }
 
-    public function putInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
+    public function putAppInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
     {
         $app = $clientApp->app();
 
