@@ -110,7 +110,7 @@ $appConfig = array(
     'app_mac_key' => $clientApp->auth()->macKey(),
 
     'authz_mac_key_id' => $clientAuthorizationResponse->auth()->macKeyId(),
-    'authzapp_mac_key' => $clientAuthorizationResponse->auth()->macKey(),
+    'authz_mac_key' => $clientAuthorizationResponse->auth()->macKey(),
 
     'entity_uri' => $entityUri,
 );

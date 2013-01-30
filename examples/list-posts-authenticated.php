@@ -19,7 +19,7 @@ $appConfig = file_exists(__DIR__.'/.tent-credentials.json')
         'app_mac_key' => 'ABCDEF001122334455',
 
         'authz_mac_key_id' => 'u:AAA-BBB-CCC',
-        'authzapp_mac_key' => '01AA02BB03CC04DD05',
+        'authz_mac_key' => '01AA02BB03CC04DD05',
 
         'entity_uri' => 'https://depot-testapp.tent.is',
     );
@@ -31,7 +31,7 @@ $postTypes = isset($argv[2]) ? explode(',', $argv[2]) : null;
 $client = Client\ClientFactory::create();
 
 $authFactory = new Auth\AuthFactory;
-$auth = $authFactory->create($appConfig['app_mac_key_id'], $appConfig['app_mac_key']);
+$auth = $authFactory->create($appConfig['authz_mac_key_id'], $appConfig['authz_mac_key']);
 
 // Find the Server (Entity container)
 $server = $client->discover($entityUri);

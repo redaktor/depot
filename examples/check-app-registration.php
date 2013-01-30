@@ -15,7 +15,7 @@ $appConfig = file_exists(__DIR__.'/.tent-credentials.json')
         'app_mac_key' => 'ABCDEF001122334455',
 
         'authz_mac_key_id' => 'u:AAA-BBB-CCC',
-        'authzapp_mac_key' => '01AA02BB03CC04DD05',
+        'authz_mac_key' => '01AA02BB03CC04DD05',
 
         'entity_uri' => 'https://depot-testapp.tent.is',
     );
