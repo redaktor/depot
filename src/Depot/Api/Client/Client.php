@@ -5,7 +5,7 @@ namespace Depot\Api\Client;
 use Depot\Api\Client\HttpClient\AuthenticatedHttpClient;
 use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Api\Client\Server;
-use Depot\Core\Domain\Model\Auth\AuthInterface;
+use Depot\Core\Model\Auth\AuthInterface;
 
 class Client
 {

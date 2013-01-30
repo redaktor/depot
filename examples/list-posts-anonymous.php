@@ -30,7 +30,7 @@ for ($i = 0; $i < 5; $i++ ) {
             break;
         }
     } else {
-        $postCriteria = new Depot\Core\Domain\Model\Post\PostCriteria;
+        $postCriteria = new Depot\Core\Model\Post\PostCriteria;
         $postCriteria->limit = 5;
         if ($postTypes) {
             $postCriteria->postTypes = $postTypes;

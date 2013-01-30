@@ -3,8 +3,8 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Depot\Api\Client;
-use Depot\Core\Domain\Model\App;
-use Depot\Core\Domain\Model\Auth;
+use Depot\Core\Model\App;
+use Depot\Core\Model\Auth;
 
 $appConfig = file_exists(__DIR__.'/.tent-credentials.json')
     ? json_decode(file_get_contents(__DIR__.'/.tent-credentials.json'), true)

@@ -3,7 +3,7 @@
 namespace Depot\Api\Infrastructure\Transport\Guzzle;
 
 use Depot\Api\Client\HttpClient\HttpClientInterface;
-use Depot\Core\Domain\Model\Auth\AuthInterface;
+use Depot\Core\Model\Auth\AuthInterface;
 use Guzzle\Http\Client;
 use Guzzle\Http\ClientInterface;
 

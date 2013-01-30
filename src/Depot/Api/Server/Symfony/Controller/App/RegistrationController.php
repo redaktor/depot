@@ -3,9 +3,9 @@
 namespace Depot\Api\Server\Symfony\Controller\App;
 
 use Depot\Api\Server\Symfony\ResponseFactory;
-use Depot\Core\Domain\Model;
-use Depot\Core\Domain\Service\Json\JsonRendererInterface;
-use Depot\Core\Domain\Service\ServerApp\ServerAppCreator;
+use Depot\Core\Model;
+use Depot\Core\Service\Json\JsonRendererInterface;
+use Depot\Core\Service\ServerApp\ServerAppCreator;
 use Symfony\Component\HttpFoundation\Request;
 
 class RegistrationController

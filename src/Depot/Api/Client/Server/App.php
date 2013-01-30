@@ -4,8 +4,8 @@ namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\AuthenticatedHttpClient;
 use Depot\Api\Client\HttpClient\HttpClientInterface;
-use Depot\Core\Domain\Model;
-use Depot\Core\Domain\Service\Random\RandomInterface;
+use Depot\Core\Model;
+use Depot\Core\Service\Random\RandomInterface;
 
 class App
 {

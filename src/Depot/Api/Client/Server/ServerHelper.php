@@ -2,7 +2,7 @@
 
 namespace Depot\Api\Client\Server;
 
-use Depot\Core\Domain\Model;
+use Depot\Core\Model;
 
 class ServerHelper
 {

@@ -3,7 +3,7 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Depot\Api\Client;
-use Depot\Core\Domain\Model\Auth;
+use Depot\Core\Model\Auth;
 
 if (count($argv) < 2) {
     echo "Usage: list-posts-anonymous.php [entity_uri] [types<all>]\n";
@@ -48,7 +48,7 @@ for ($i = 0; $i < 5; $i++ ) {
             break;
         }
     } else {
-        $postCriteria = new Depot\Core\Domain\Model\Post\PostCriteria;
+        $postCriteria = new Depot\Core\Model\Post\PostCriteria;
         $postCriteria->limit = 5;
         if ($postTypes) {
             $postCriteria->postTypes = $postTypes;

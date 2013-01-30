@@ -2,8 +2,8 @@
 
 namespace Depot\Api\Client\HttpClient;
 
-use Depot\Core\Domain\Model\Auth\AuthInterface;
-use Depot\Core\Domain\Model\Auth\HmacHelper;
+use Depot\Core\Model\Auth\AuthInterface;
+use Depot\Core\Model\Auth\HmacHelper;
 
 class AuthenticatedHttpClient implements HttpClientInterface
 {

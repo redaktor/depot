@@ -2,7 +2,7 @@
 
 namespace Depot\Api\Client\HttpClient;
 
-use Depot\Core\Domain\Model\Auth\AuthInterface;
+use Depot\Core\Model\Auth\AuthInterface;
 
 interface HttpClientInterface
 {

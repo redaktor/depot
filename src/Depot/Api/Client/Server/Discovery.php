@@ -3,7 +3,7 @@
 namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\HttpClientInterface;
-use Depot\Core\Domain\Model;
+use Depot\Core\Model;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Discovery
