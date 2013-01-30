@@ -125,7 +125,11 @@ class Post
                 }
 
                 if (isset($parsed['post_types'])) {
-                    $postCriteria->postTypes = explode(',', $parsed['post_types']);
+                    if (0 === strpos($parsed['post_types'], '[')) {
+                        $postCriteria->postTypes = json_decode($parsed['post_types'], true);
+                    } else {
+                        $postCriteria->postTypes = explode(',', $parsed['post_types']);
+                    }
                 }
 
                 if (isset($parsed['limit'])) {
