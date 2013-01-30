@@ -89,6 +89,14 @@ output of the basic and core profiles.
     php check-profile-anonymous.php https://depot-testapp.tent.is
 
 
+### list-posts-anonymous.php
+
+This script will discover `[entity_uri]` and will present the user with a
+list of several recent posts.
+
+    php list-posts-anonymous.php https://depot-testapp.tent.is
+
+
 Community
 ---------
 
