@@ -7,7 +7,7 @@ use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Core\Model;
 use Depot\Core\Service\Random\RandomInterface;
 
-class App
+class Apps
 {
     protected $httpClient;
     protected $authFactory;

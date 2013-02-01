@@ -24,7 +24,7 @@ for ($i = 0; $i < 5; $i++ ) {
     if ($postListResponse) {
         if ($postCriteria = $postListResponse->nextCriteria()) {
             // If we have next criteria specified, use it!
-            $postListResponse = $client->post()->getPosts($server, $postCriteria);
+            $postListResponse = $client->posts()->getPosts($server, $postCriteria);
         } else {
             // Otherwise we are done here.
             break;
@@ -35,7 +35,7 @@ for ($i = 0; $i < 5; $i++ ) {
         if ($postTypes) {
             $postCriteria->postTypes = $postTypes;
         }
-        $postListResponse = $client->post()->getPosts($server, $postCriteria);
+        $postListResponse = $client->posts()->getPosts($server, $postCriteria);
     }
 
     foreach ($postListResponse->posts() as $post) {
