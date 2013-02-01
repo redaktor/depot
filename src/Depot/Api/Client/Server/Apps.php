@@ -4,11 +4,13 @@ namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\AuthenticatedHttpClient;
 use Depot\Api\Client\HttpClient\HttpClientInterface;
+use Depot\Api\Client\HttpClient\TentHttpClient;
 use Depot\Core\Model;
 use Depot\Core\Service\Random\RandomInterface;
 
 class Apps
 {
+    protected $rawHttpClient;
     protected $httpClient;
     protected $authFactory;
     protected $random;
@@ -16,6 +18,7 @@ class Apps
     public function __construct(HttpClientInterface $httpClient, Model\Auth\AuthFactory $authFactory, RandomInterface $random)
     {
         $this->httpClient = $httpClient;
+        $this->tentHttpClient = new TentHttpClient($httpClient);
         $this->authFactory = $authFactory;
         $this->random = $random;
     }
@@ -56,7 +59,7 @@ class Apps
             'token_type' => 'mac',
         );
 
-        $response = $this->httpClient->post(
+        $response = $this->tentHttpClient->post(
             $apiRoot.'/apps/'.$clientApp->id().'/authorizations',
             null,
             json_encode($payload)
@@ -98,7 +101,7 @@ class Apps
             'scopes' => $app->scopes(),
         );
 
-        $response = $this->httpClient->post($apiRoot.'/apps', null, json_encode($payload));
+        $response = $this->tentHttpClient->post($apiRoot.'/apps', null, json_encode($payload));
 
         $json = json_decode($response->body(), true);
 
@@ -128,7 +131,7 @@ class Apps
 
     public function getAppsInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
     {
-        $response = $this->httpClient->get($apiRoot.'/apps/'.$clientApp->id());
+        $response = $this->tentHttpClient->get($apiRoot.'/apps/'.$clientApp->id());
 
         $json = json_decode($response->body(), true);
 
@@ -164,7 +167,7 @@ class Apps
             'scopes' => $app->scopes(),
         );
 
-        $response = $this->httpClient->put($apiRoot.'/apps/'.$clientApp->id(), null, json_encode($payload));
+        $response = $this->tentHttpClient->put($apiRoot.'/apps/'.$clientApp->id(), null, json_encode($payload));
 
         $json = json_decode($response->body(), true);
 

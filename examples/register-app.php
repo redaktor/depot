@@ -26,14 +26,14 @@ if (count($argv) < 2) {
 
 $entityUri = $argv['1'];
 
-// Create the client.
-$client = Client\ClientFactory::create();
+$clientFactory = new Client\ClientFactory;
+$client = $clientFactory->create();
 
 // Find the Server (Entity container)
 $server = $client->discover($entityUri);
 
 // Register our application with the server.
-$appRegistrationCreationResponse = $client->app()->register($server, $app);
+$appRegistrationCreationResponse = $client->apps()->register($server, $app);
 
 // Capture the application's auth credentials.
 $auth = $appRegistrationCreationResponse->auth();
@@ -49,7 +49,7 @@ $clientApp = new App\ClientApp(
 $redirectUri = 'http://testapp.depot.io/tent/callback';
 
 // Generate the Client Authorization Request (state + URL; can be persisted)
-$clientAuthorizationRequest = $client->app()->generateClientAuthorizationRequest(
+$clientAuthorizationRequest = $client->apps()->generateClientAuthorizationRequest(
     $server,
     $clientApp,
     $redirectUri, // TODO: Not needed if using configured defaults
@@ -82,7 +82,7 @@ if ($state !== $clientAuthorizationRequest->state()) {
     throw new \RuntimeException("Invalid state; abandoning authorization");
 }
 
-$clientAuthorizationResponse = $client->authenticate($auth)->app()->exchangeCode(
+$clientAuthorizationResponse = $client->authenticate($auth)->apps()->exchangeCode(
     $server,
     $clientApp,
     $code

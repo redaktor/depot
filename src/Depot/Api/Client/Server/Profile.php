@@ -3,6 +3,7 @@
 namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\HttpClientInterface;
+use Depot\Api\Client\HttpClient\TentHttpClient;
 use Depot\Core\Model;
 
 class Profile
@@ -12,6 +13,7 @@ class Profile
     public function __construct(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
+        $this->tentHttpClient = new TentHttpClient($httpClient);
     }
 
     public function getProfile(Model\Server\ServerInterface $server)
@@ -31,7 +33,7 @@ class Profile
 
     public function getProfileInternal(Model\Server\ServerInterface $server, $apiRoot)
     {
-        $response = $this->httpClient->get($apiRoot.'/profile');
+        $response = $this->tentHttpClient->get($apiRoot.'/profile');
 
         $profile = static::createProfileFromJson(json_decode($response->body(), true));
 
@@ -52,7 +54,7 @@ class Profile
 
     public function getProfileTypeInternal(Model\Server\ServerInterface $server, $apiRoot, $type)
     {
-        $response = $this->httpClient->get($apiRoot.'/profile/'.rawurlencode($type));
+        $response = $this->tentHttpClient->get($apiRoot.'/profile/'.rawurlencode($type));
 
         $profileType = new Model\Entity\ProfileType($type, json_decode($response->body(), true));
 
@@ -63,7 +65,7 @@ class Profile
 
     public function putProfileTypeInternal(Model\Server\ServerInterface $server, $apiRoot, Model\Entity\ProfileTypeInterface $profileType)
     {
-        $response = $this->httpClient->put(
+        $response = $this->tentHttpClient->put(
             $apiRoot.'/profile/'.rawurlencode($profileType->uri()),
             null,
             json_encode($profileType->content())

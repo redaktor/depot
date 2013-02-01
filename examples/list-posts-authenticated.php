@@ -27,8 +27,8 @@ $appConfig = file_exists(__DIR__.'/.tent-credentials.json')
 $entityUri = $argv[1];
 $postTypes = isset($argv[2]) ? explode(',', $argv[2]) : null;
 
-// Create the client.
-$client = Client\ClientFactory::create();
+$clientFactory = new Client\ClientFactory;
+$client = $clientFactory->create();
 
 $authFactory = new Auth\AuthFactory;
 $auth = $authFactory->create($appConfig['authz_mac_key_id'], $appConfig['authz_mac_key']);

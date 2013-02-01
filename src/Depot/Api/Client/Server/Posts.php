@@ -4,6 +4,7 @@ namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\AuthenticatedHttpClient;
 use Depot\Api\Client\HttpClient\HttpClientInterface;
+use Depot\Api\Client\HttpClient\TentHttpClient;
 use Depot\Core\Model;
 use Depot\Core\Service\Random\RandomInterface;
 
@@ -14,6 +15,7 @@ class Posts
     public function __construct(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
+        $this->tentHttpClient = new TentHttpClient($httpClient);
     }
 
     public function getPosts(Model\Server\ServerInterface $server, Model\Post\PostCriteria $postCriteria = null)
@@ -76,7 +78,7 @@ class Posts
             ? '?'.http_build_query($requestParams)
             : '';
 
-        $response = $this->httpClient->get($apiRoot.'/posts'.$requestQuery);
+        $response = $this->tentHttpClient->get($apiRoot.'/posts'.$requestQuery);
         $nextCriteria = null;
         $previousCriteria = null;
 

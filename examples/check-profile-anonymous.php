@@ -11,8 +11,8 @@ if (count($argv) < 2) {
 
 $entityUri = $argv['1'];
 
-// Create the client.
-$client = Client\ClientFactory::create();
+$clientFactory = new Client\ClientFactory;
+$client = $clientFactory->create();
 
 // Find the Server (Entity container)
 $server = $client->discover($entityUri);

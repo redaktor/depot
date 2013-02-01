@@ -11,7 +11,7 @@ use Depot\Core\Service\Random\RandomInterface;
 
 class ClientFactory
 {
-    public static function create(HttpClientInterface $httpClient = null, AuthFactory $authFactory = null, RandomInterface $random = null)
+    public function create(HttpClientInterface $httpClient = null, AuthFactory $authFactory = null, RandomInterface $random = null)
     {
         if (null === $httpClient) {
             $httpClient = new GuzzleHttpClient;
@@ -26,6 +26,7 @@ class ClientFactory
         }
 
         return new Client(
+            $this,
             $httpClient,
             new Server\Discovery($httpClient),
             new Server\Profile($httpClient),

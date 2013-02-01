@@ -5,9 +5,8 @@ namespace Depot\Api\Client\HttpClient;
 use Depot\Core\Model\Auth\AuthInterface;
 use Depot\Core\Model\Auth\HmacHelper;
 
-class AuthenticatedHttpClient implements HttpClientInterface
+class AuthenticatedHttpClient extends AbstractHttpClientDecorator
 {
-    protected $httpClient;
     protected $auth;
 
     public function __construct(HttpClientInterface $httpClient, AuthInterface $auth)
@@ -16,46 +15,13 @@ class AuthenticatedHttpClient implements HttpClientInterface
         $this->auth = $auth;
     }
 
-    public function head($uri)
-    {
-        return $this->httpClient->head($uri);
-    }
-
-    public function get($uri, $headers = null)
-    {
-        $headers = $this->massageHeaders('GET', $uri, $headers);
-
-        return $this->httpClient->get($uri, $headers);
-    }
-
-    public function post($uri, $headers = null, $payload = null)
-    {
-        $headers = $this->massageHeaders('POST', $uri, $headers);
-
-        return $this->httpClient->post($uri, $headers, $payload);
-    }
-
-    public function put($uri, $headers = null, $payload = null)
-    {
-        $headers = $this->massageHeaders('PUT', $uri, $headers);
-
-        return $this->httpClient->put($uri, $headers, $payload);
-    }
-
-    public function delete($uri, $headers = null)
-    {
-        $headers = $this->massageHeaders('DELETE', $uri, $headers);
-
-        return $this->httpClient->delete($uri, $headers);
-    }
-
     protected function massageHeaders($method, $uri, $headers = null)
     {
         if (null === $headers) {
             $headers = array();
         }
 
-        if ($this->auth->isAnonymous()) {
+        if ($this->auth->isAnonymous() || isset($headers['Authorization'])) {
             return $headers;
         }
 

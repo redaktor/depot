@@ -9,13 +9,16 @@ use Depot\Core\Model\Auth\AuthInterface;
 
 class Client
 {
+    protected $clientFactory;
+    protected $httpClient;
     protected $discovery;
     protected $profile;
     protected $apps;
     protected $posts;
 
-    public function __construct(HttpClientInterface $httpClient, Server\Discovery $discovery, Server\Profile $profile, Server\Apps $apps, Server\Posts $posts)
+    public function __construct(ClientFactory $clientFactory, HttpClientInterface $httpClient, Server\Discovery $discovery, Server\Profile $profile, Server\Apps $apps, Server\Posts $posts)
     {
+        $this->clientFactory = $clientFactory;
         $this->httpClient = $httpClient;
         $this->discovery = $discovery;
         $this->profile = $profile;
@@ -46,7 +49,7 @@ class Client
     public function authenticate(AuthInterface $auth)
     {
         $authenticatedHttpClient = new AuthenticatedHttpClient($this->httpClient, $auth);
-        $authenticatedClient = ClientFactory::create($authenticatedHttpClient);
+        $authenticatedClient = $this->clientFactory->create($authenticatedHttpClient);
 
         return $authenticatedClient;
     }

@@ -41,8 +41,8 @@ $clientApp = new App\ClientApp(
     $auth
 );
 
-// Create the client.
-$client = Client\ClientFactory::create();
+$clientFactory = new Client\ClientFactory;
+$client = $clientFactory->create();
 
 // Find the Server (Entity container)
 $server = $client->discover($appConfig['entity_uri']);

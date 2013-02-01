@@ -25,7 +25,9 @@ class GuzzleHttpClient implements HttpClientInterface
 
     public function get($uri, $headers = null)
     {
-        $headers = $this->massageHeaders($headers);
+        if (null === $headers) {
+            $headers = array();
+        }
 
         return new GuzzleHttpResponse(
             $this->client->get($uri, $headers)->send()
@@ -34,7 +36,9 @@ class GuzzleHttpClient implements HttpClientInterface
 
     public function post($uri, $headers = null, $payload = null)
     {
-        $headers = $this->massageHeaders($headers);
+        if (null === $headers) {
+            $headers = array();
+        }
 
         return new GuzzleHttpResponse(
             $this->client->post($uri, $headers, $payload)->send()
@@ -43,7 +47,9 @@ class GuzzleHttpClient implements HttpClientInterface
 
     public function put($uri, $headers = null, $payload = null)
     {
-        $headers = $this->massageHeaders($headers);
+        if (null === $headers) {
+            $headers = array();
+        }
 
         return new GuzzleHttpResponse(
             $this->client->put($uri, $headers, $payload)->send()
@@ -52,23 +58,12 @@ class GuzzleHttpClient implements HttpClientInterface
 
     public function delete($uri, $headers = null)
     {
-        $headers = $this->massageHeaders($headers);
-    }
-
-    protected function massageHeaders($headers = null)
-    {
         if (null === $headers) {
             $headers = array();
         }
 
-        if (! isset($headers['Content-Type'])) {
-            $headers['Content-Type'] = 'application/vnd.tent.v0+json';
-        }
-
-        if (! isset($headers['Accept'])) {
-            $headers['Accept'] = 'application/vnd.tent.v0+json';
-        }
-
-        return $headers;
+        return new GuzzleHttpResponse(
+            $this->client->put($uri, $headers)->send()
+        );
     }
 }
