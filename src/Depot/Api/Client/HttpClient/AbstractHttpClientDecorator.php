@@ -29,211 +29,166 @@ abstract class AbstractHttpClientDecorator implements HttpClientInterface
 
     public function setConfig($config)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setConfig'), $args);
+        return $this->httpClient->setConfig($config);
     }
 
     public function getConfig($key = false)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'getConfig'), $args);
+        return $this->httpClient->getConfig($key);
     }
 
     public function setSslVerification($certificateAuthority = true, $verifyPeer = true, $verifyHost = 2)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setSslVerification'), $args);
+        return $this->httpClient->setSslVerification($certificateAuthority, $verifyPeer, $verifyHost);
     }
 
     public function getDefaultHeaders()
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'getDefaultHeaders'), $args);
+        return $this->httpClient->getDefaultHeaders();
     }
 
     public function setDefaultHeaders($headers)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setDefaultHeaders'), $args);
+        return $this->httpClient->setDefaultHeaders($headers);
     }
 
     public function setUriTemplate(UriTemplateInterface $uriTemplate)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setUriTemplate'), $args);
+        return $this->httpClient->setUriTemplate($uriTemplate);
     }
 
     public function getUriTemplate()
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'getUriTemplate'), $args);
+        return $this->httpClient->getUriTemplate();
     }
 
     public function expandTemplate($template, array $variables = null)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'expandTemplate'), $args);
+        return $this->httpClient->expandTemplate($template, $variables);
     }
 
     public function createRequest($method = RequestInterface::GET, $uri = null, $headers = null, $body = null)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'createRequest'), $args);
+        return $this->httpClient->createRequest($method, $uri, $headers, $body);
     }
 
     public function getBaseUrl($expand = true)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'getBaseUrl'), $args);
+        return $this->httpClient->getBaseUrl($expand);
     }
 
     public function setBaseUrl($url)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setBaseUrl'), $args);
+        return $this->httpClient->setBaseUrl($url);
     }
 
     public function setUserAgent($userAgent, $includeDefault = false)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setUserAgent'), $args);
+        return $this->httpClient->setUserAgent($userAgent, $includeDefault);
     }
 
     public function get($uri = null, $headers = null, $body = null)
     {
-        $args = func_get_args();
-
-        $args[1] = $this->massageHeaders('GET', $uri, isset($args[1]) ? $args[1] : array());
-
-        return call_user_func_array(array($this->httpClient, 'get'), $args);
+        return $this->httpClient->get(
+            $uri,
+            $this->massageHeaders('GET', $uri, $headers),
+            $body
+        );
     }
 
     public function head($uri = null, $headers = null)
     {
-        $args = func_get_args();
-
-        $args[1] = $this->massageHeaders('HEAD', $uri, isset($args[1]) ? $args[1] : array());
-
-        return call_user_func_array(array($this->httpClient, 'head'), $args);
+        return $this->httpClient->head(
+            $uri,
+            $this->massageHeaders('HEAD', $uri, $headers)
+        );
     }
 
     public function delete($uri = null, $headers = null, $body = null)
     {
-        $args = func_get_args();
-
-        $args[1] = $this->massageHeaders('DELETE', $uri, isset($args[1]) ? $args[1] : array());
-
-        return call_user_func_array(array($this->httpClient, 'delete'), $args);
+        return $this->httpClient->delete(
+            $uri,
+            $this->massageHeaders('DELETE', $uri, $headers),
+            $body
+        );
     }
 
     public function put($uri = null, $headers = null, $body = null)
     {
-        $args = func_get_args();
-
-        $args[1] = $this->massageHeaders('PUT', $uri, isset($args[1]) ? $args[1] : array());
-
-        return call_user_func_array(array($this->httpClient, 'put'), $args);
+        return $this->httpClient->put(
+            $uri,
+            $this->massageHeaders('PUT', $uri, $headers),
+            $body
+        );
     }
 
     public function patch($uri = null, $headers = null, $body = null)
     {
-        $args = func_get_args();
-
-        $args[1] = $this->massageHeaders('PUT', $uri, isset($args[1]) ? $args[1] : array());
-
-        return call_user_func_array(array($this->httpClient, 'patch'), $args);
+        return $this->httpClient->patch(
+            $uri,
+            $this->massageHeaders('PATCH', $uri, $headers),
+            $body
+        );
     }
 
     public function post($uri = null, $headers = null, $postBody = null)
     {
-        $args = func_get_args();
-
-        $args[1] = $this->massageHeaders('POST', $uri, isset($args[1]) ? $args[1] : array());
-
-        return call_user_func_array(array($this->httpClient, 'post'), $args);
+        return $this->httpClient->post(
+            $uri,
+            $this->massageHeaders('POST', $uri, $headers),
+            $body
+        );
     }
 
     public function options($uri = null)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'options'), $args);
+        return $this->httpClient->options($uri);
     }
 
     public function send($requests)
     {
-        $args = func_get_args();
-
         return $this->massageResponse(
-            call_user_func_array(array($this->httpClient, 'send'), $args)
+            $this->httpClient->send($requests)
         );
     }
 
     public function setCurlMulti(CurlMultiInterface $curlMulti)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setCurlMulti'), $args);
+        return $this->httpClient->setCurlMulti($curlMulti);
     }
 
     public function getCurlMulti()
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'getCurlMulti'), $args);
+        return $this->httpClient->getCurlMulti();
     }
 
     public function setRequestFactory(RequestFactoryInterface $factory)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setRequestFactory'), $args);
+        return $this->httpClient->setRequestFactory($factory);
     }
 
     public static function getAllEvents()
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'getAllEvents'), $args);
+        return $this->httpClient->getAllEvents();
     }
 
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'setEventDispatcher'), $args);
+        return $this->httpClient->setEventDispatcher($eventDispatcher);
     }
 
     public function getEventDispatcher()
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'getEventDispatcher'), $args);
+        return $this->httpClient->getEventDispatcher();
     }
 
     public function dispatch($eventName, array $context = array())
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'dispatch'), $args);
+        return $this->httpClient->dispatch($eventName, $context);
     }
 
     public function addSubscriber(EventSubscriberInterface $subscriber)
     {
-        $args = func_get_args();
-
-        return call_user_func_array(array($this->httpClient, 'addSubscriber'), $args);
+        return $this->httpClient->addSubscriber($subscriber);
     }
 }
