@@ -101,7 +101,7 @@ output of the basic and core profiles.
     php check-profile-anonymous.php https://depot-testapp.tent.is
 
 
-### list-posts-anonymous.php
+### list-posts-anonymous.php [entity_uri] [post_types,comma,separated]
 
 This script will discover `[entity_uri]` and will present the user with a
 list of several recent posts. Since this is an anonymous request only
@@ -115,7 +115,7 @@ only posts of the requested type are displayed.
     php list-posts-anonymous.php https://depot-testapp.tent.is \
         https://tent.io/types/post/status/v0.1.0
 
-### list-posts-authenticated.php
+### list-posts-authenticated.php [post_types,comma,separated]
 
 This script will connect to the server for the entity from `register-app.php`
 and will present the user with a list of several recent posts. Since this is
