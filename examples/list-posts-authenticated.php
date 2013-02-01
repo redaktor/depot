@@ -5,11 +5,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Depot\Api\Client;
 use Depot\Core\Model\Auth;
 
-if (count($argv) < 2) {
-    echo "Usage: list-posts-anonymous.php [entity_uri] [types<all>]\n";
-    exit;
-}
-
 $appConfig = file_exists(__DIR__.'/.tent-credentials.json')
     ? json_decode(file_get_contents(__DIR__.'/.tent-credentials.json'), true)
     : $appConfig = array(
@@ -24,8 +19,7 @@ $appConfig = file_exists(__DIR__.'/.tent-credentials.json')
         'entity_uri' => 'https://depot-testapp.tent.is',
     );
 
-$entityUri = $argv[1];
-$postTypes = isset($argv[2]) ? explode(',', $argv[2]) : null;
+$postTypes = isset($argv[1]) ? explode(',', $argv[1]) : null;
 
 $clientFactory = new Client\ClientFactory;
 $client = $clientFactory->create();
@@ -34,7 +28,7 @@ $authFactory = new Auth\AuthFactory;
 $auth = $authFactory->create($appConfig['authz_mac_key_id'], $appConfig['authz_mac_key']);
 
 // Find the Server (Entity container)
-$server = $client->discover($entityUri);
+$server = $client->discover($appConfig['entity_uri']);
 
 $postListResponse = null;
 

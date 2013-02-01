@@ -4,8 +4,8 @@ Depot
 Depot is a PHP implementation of the [Tent][1] protocol.
 
 
-Installation / Development
---------------------------
+Installation
+------------
 
 Depot is not currently available via [Packagist][2] but it is
 managed by [Composer][3] to install dependencies.
@@ -14,7 +14,19 @@ To start working with the development version of Depot clone
 this repository (or fork and clone) and run Composer install
 with the `--dev` flag.
 
+### If You Already Have Composer
+
     composer install --dev
+
+
+### If You Need Composer
+
+    curl -s https://getcomposer.org/installer | php
+    php composer.phar install --dev
+
+
+Testing
+-------
 
 To run the test suite,  execute the PHPUnit that was installed
 by Composer:

@@ -10,8 +10,8 @@ phased out as the codebase matures and there is actual
 documentation and completed reference projects based on Depot.
 
 
-Installation / Development
---------------------------
+Installation
+------------
 
 Depot is not currently available via [Packagist][2] but it is
 managed by [Composer][3] to install dependencies.
@@ -20,7 +20,19 @@ To start working with the development version of Depot clone
 this repository (or fork and clone) and run Composer install
 with the `--dev` flag.
 
+### If You Already Have Composer
+
     composer install --dev
+
+
+### If You Need Composer
+
+    curl -s https://getcomposer.org/installer | php
+    php composer.phar install --dev
+
+
+Running
+-------
 
 In theory the scripts in this directory should be able to be
 run from anywhere. In practice it probably makes sense to run
@@ -92,9 +104,29 @@ output of the basic and core profiles.
 ### list-posts-anonymous.php
 
 This script will discover `[entity_uri]` and will present the user with a
-list of several recent posts.
+list of several recent posts. Since this is an anonymous request only
+public posts from the target entity will be displayed.
 
     php list-posts-anonymous.php https://depot-testapp.tent.is
+
+Post types can be specified as an optional second argument. When specified
+only posts of the requested type are displayed.
+
+    php list-posts-anonymous.php https://depot-testapp.tent.is \
+        https://tent.io/types/post/status/v0.1.0
+
+### list-posts-authenticated.php
+
+This script will connect to the server for the entity from `register-app.php`
+and will present the user with a list of several recent posts. Since this is
+an authenticted request all posts are returned.
+
+    php list-posts-authenticated.php
+
+Post types can be specified as an optional third argument. When specified
+only posts of the requested type are displayed.
+
+    php list-posts-authenticated.php https://tent.io/types/post/status/v0.1.0
 
 
 Community
