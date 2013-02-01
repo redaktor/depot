@@ -4,7 +4,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Depot\Api\Client;
 use Depot\Core\Model\App;
-use Depot\Core\Model\Auth;
 
 $app = new App\App(
     'depot-testapp',
