@@ -30,13 +30,13 @@ class Discovery
         foreach ($profileUris as $profileUri) {
             try {
                 try {
-                    $response = $this->httpClient->get($profileUri);
+                    $response = $this->httpClient->get($profileUri)->send();
                 } catch (\Exception $e) {
                     // Ignore this (for now; might simply be down)
                     continue;
                 }
 
-                $json = json_decode($response->body(), true);
+                $json = json_decode($response->getBody(), true);
 
                 $profile = Profile::createProfileFromJson($json);
 
@@ -69,7 +69,7 @@ class Discovery
 
         $profileUris = array();
 
-        if (!$links = $response->header('Link')) {
+        if (!$links = $response->getHeader('Link')) {
             return null;
         }
 
@@ -85,13 +85,13 @@ class Discovery
     protected function discoverProfileUrisFromHtml($uri)
     {
         try {
-            $response = $this->httpClient->get($uri);
+            $response = $this->httpClient->get($uri)->send();
         } catch (\Exception $e) {
             throw new \RuntimeException("Entity could not be found", 0, $e);
         }
 
         $crawler = new Crawler;
-        $crawler->addContent($response->body());
+        $crawler->addContent($response->getBody());
 
         $profileUris = array();
         foreach ($crawler->filter('link[rel="https://tent.io/rels/profile"]') as $link) {

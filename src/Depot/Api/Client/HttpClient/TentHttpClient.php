@@ -2,9 +2,6 @@
 
 namespace Depot\Api\Client\HttpClient;
 
-use Depot\Core\Model\Auth\AuthInterface;
-use Depot\Core\Model\Auth\HmacHelper;
-
 class TentHttpClient extends AbstractHttpClientDecorator
 {
     public function __construct(HttpClientInterface $httpClient)

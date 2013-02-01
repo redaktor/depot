@@ -78,11 +78,11 @@ class Posts
             ? '?'.http_build_query($requestParams)
             : '';
 
-        $response = $this->tentHttpClient->get($apiRoot.'/posts'.$requestQuery);
+        $response = $this->tentHttpClient->get($apiRoot.'/posts'.$requestQuery)->send();
         $nextCriteria = null;
         $previousCriteria = null;
 
-        foreach ($response->header('link') as $link) {
+        foreach ($response->getHeader('link') as $link) {
 
             if (preg_match('/<.+\?(.+?)>; rel="(prev|next)"/', $link, $matches)) {
                 list ($fullMatch, $urlParams, $relationship) = $matches;
@@ -149,7 +149,7 @@ class Posts
             }
         }
 
-        $json = json_decode($response->body(), true);
+        $json = json_decode($response->getBody(), true);
 
         $posts = array();
 

@@ -3,11 +3,12 @@
 namespace Depot\Api\Client;
 
 use Depot\Api\Client\HttpClient\HttpClientInterface;
+use Depot\Api\Client\HttpClient\GuzzleHttpClient;
 use Depot\Api\Client\Server;
-use Depot\Api\Infrastructure\Transport\Guzzle\GuzzleHttpClient;
 use Depot\Core\Model\Auth\AuthFactory;
 use Depot\Core\Service\Random\Random;
 use Depot\Core\Service\Random\RandomInterface;
+
 
 class ClientFactory
 {

@@ -63,9 +63,9 @@ class Apps
             $apiRoot.'/apps/'.$clientApp->id().'/authorizations',
             null,
             json_encode($payload)
-        );
+        )->send();
 
-        $json = json_decode($response->body(), true);
+        $json = json_decode($response->getBody(), true);
 
         return new Model\App\ClientAuthorizationResponse(
             $clientApp,
@@ -101,9 +101,9 @@ class Apps
             'scopes' => $app->scopes(),
         );
 
-        $response = $this->tentHttpClient->post($apiRoot.'/apps', null, json_encode($payload));
+        $response = $this->tentHttpClient->post($apiRoot.'/apps', null, json_encode($payload))->send();
 
-        $json = json_decode($response->body(), true);
+        $json = json_decode($response->getBody(), true);
 
         $app = new Model\App\App(
             $json['name'],
@@ -131,9 +131,9 @@ class Apps
 
     public function getAppsInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
     {
-        $response = $this->tentHttpClient->get($apiRoot.'/apps/'.$clientApp->id());
+        $response = $this->tentHttpClient->get($apiRoot.'/apps/'.$clientApp->id())->send();
 
-        $json = json_decode($response->body(), true);
+        $json = json_decode($response->getBody(), true);
 
         $app = new Model\App\App(
             $json['name'],
@@ -167,9 +167,9 @@ class Apps
             'scopes' => $app->scopes(),
         );
 
-        $response = $this->tentHttpClient->put($apiRoot.'/apps/'.$clientApp->id(), null, json_encode($payload));
+        $response = $this->tentHttpClient->put($apiRoot.'/apps/'.$clientApp->id(), null, json_encode($payload))->send();
 
-        $json = json_decode($response->body(), true);
+        $json = json_decode($response->getBody(), true);
 
         $app = new Model\App\App(
             $json['name'],
