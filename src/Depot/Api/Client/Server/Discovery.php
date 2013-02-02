@@ -62,7 +62,7 @@ class Discovery
     protected function discoverProfileUrisFromHeaders($uri)
     {
         try {
-            $response = $this->httpClient->head($uri);
+            $response = $this->httpClient->head($uri)->send();
         } catch (\Exception $e) {
             throw new \RuntimeException("Entity could not be found", 0, $e);
         }

@@ -9,8 +9,11 @@ class JsonRenderer implements JsonRendererInterface
     public function __construct()
     {
         $this->renderers = array(
-            new Renderer\App\AppRegistrationCreationResponseRenderer,
-            new Renderer\App\AppRegistrationResponseRenderer,
+            new Renderer\Apps\AppRegistrationCreationResponseRenderer,
+            new Renderer\Apps\AppRegistrationResponseRenderer,
+
+            new Renderer\Profile\ProfileRenderer,
+            new Renderer\Profile\ProfileTypeRenderer,
         );
     }
 
@@ -18,8 +21,10 @@ class JsonRenderer implements JsonRendererInterface
     {
         foreach ($this->renderers as $renderer) {
             if ($renderer->supports($object)) {
-                return json_encode($this->renderToData($object));
+                return json_encode($renderer->renderToData($object));
             }
         }
+
+        throw new \RuntimeException('Could not find a renderer for object of class '.get_class($object));
     }
 }

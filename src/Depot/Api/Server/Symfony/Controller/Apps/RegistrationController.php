@@ -1,6 +1,6 @@
 <?php
 
-namespace Depot\Api\Server\Symfony\Controller\App;
+namespace Depot\Api\Server\Symfony\Controller\Apps;
 
 use Depot\Api\Server\Symfony\ResponseFactory;
 use Depot\Core\Model;

@@ -1,13 +1,13 @@
 <?php
 
-namespace Depot\Api\Server\Symfony\Controller\App;
+namespace Depot\Api\Server\Symfony\Controller\Apps;
 
 use Depot\Api\Server\Symfony\ResponseFactory;
 use Depot\Core\Model;
 use Depot\Core\Service\Json\JsonRendererInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class DetailController
+class GetAppController
 {
     protected $jsonRenderer;
     protected $serverAppRepository;
@@ -24,9 +24,9 @@ class DetailController
         $this->responseFactory = $responseFactory ?: new ResponseFactory;
     }
 
-    public function detailAction($identityOrEntityUri)
+    public function action($id)
     {
-        $server = $this->serverAppRepository->findByIdentityOrEntityUri($identityOrEntityUri);
+        $serverApp = $this->serverAppRepository->find($id);
 
         return $this->responseFactory->createTentJsonResponse(
             $this->jsonRenderer->render(

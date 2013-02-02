@@ -1,11 +1,11 @@
 <?php
 
-namespace Depot\Core\Service\Json\Renderer\App;
+namespace Depot\Core\Service\Json\Renderer\Apps;
 
 use Depot\Core\Model;
 use Depot\Core\Service\Json\RendererInterface;
 
-class AppRegistrationCreationResponseRenderer implements RendererInterface
+class AppRegistrationResponseRenderer implements RendererInterface
 {
     public function supports($object)
     {
