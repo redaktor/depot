@@ -20,8 +20,8 @@ class Server implements ServerInterface
 
     public function servers()
     {
-        $json = $this->entity->profile()->find('https://tent.io/types/info/core/v0.1.0')->content();
+        $content = $this->entity->findProfileInfo('https://tent.io/types/info/core/v0.1.0')->content();
 
-        return $json['servers'];
+        return $content['servers'];
     }
 }

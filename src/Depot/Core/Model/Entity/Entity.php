@@ -4,13 +4,13 @@ namespace Depot\Core\Model\Entity;
 
 class Entity implements EntityInterface
 {
-    protected $uri;
     protected $profile;
+    protected $uri;
 
-    public function __construct($uri, ProfileInterface $profile)
+    public function __construct(ProfileInterface $profile)
     {
-        $this->uri = $uri;
         $this->profile = $profile;
+        $this->uri = $profile->findCoreEntityUri();
     }
 
     public function uri()
@@ -18,8 +18,27 @@ class Entity implements EntityInterface
         return $this->uri;
     }
 
-    public function profile()
+    public function profileInfoTypes()
     {
-        return $this->profile;
+        return $this->profile->types();
+    }
+
+    public function setProfileInfo(ProfileInfoInterface $profileInfo)
+    {
+        $this->profile->set($profileInfo);
+
+        if (ProfileInterface::TYPE_CORE === $profileInfo->uri()) {
+            $this->uri = $profile->findCoreEntityUri();
+        }
+    }
+
+    public function findProfileInfo($uri)
+    {
+        return $this->profile->find($uri);
+    }
+
+    public function removeProfileInfo($uri)
+    {
+        $this->profile->remove($uri);
     }
 }

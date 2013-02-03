@@ -6,7 +6,7 @@ use Depot\Api\Server\Symfony\ResponseFactory;
 use Depot\Core\Model;
 use Symfony\Component\HttpFoundation\Request;
 
-class GetProfileTypeController
+class GetProfileInfoController
 {
     protected $jsonRenderer;
     protected $entityRepository;
@@ -30,7 +30,7 @@ class GetProfileTypeController
         $entity = $this->entityRepository->findByUri($entityUri);
 
         return $this->responseFactory->createTentJsonResponse(
-            $this->jsonRenderer->render($entity->profile()->find($type))
+            $this->jsonRenderer->render($entity->findProfileInfo($type))
         );
     }
 }

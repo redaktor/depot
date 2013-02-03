@@ -44,10 +44,7 @@ class Discovery
                     continue;
                 }
 
-                $entity = new Model\Entity\Entity(
-                    $json['https://tent.io/types/info/core/v0.1.0']['entity'],
-                    $profile
-                );
+                $entity = new Model\Entity\Entity($profile);
 
                 return new Model\Server\Server($entity);
             } catch (\Exception $e) {

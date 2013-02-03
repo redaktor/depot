@@ -31,7 +31,7 @@ class GetProfileController
         $entity = $this->entityRepository->findByUri($entityUri);
 
         return $this->responseFactory->createTentJsonResponse(
-            $this->jsonRenderer->render($entity->profile())
+            $this->jsonRenderer->render($entity)
         );
     }
 }

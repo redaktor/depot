@@ -28,7 +28,7 @@ class Apps
         return ServerHelper::tryAllServers($server, array($this, 'registerInternal'), array($app));
     }
 
-    public function generateClientAuthorizationRequest(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp, $redirectUri, $scopes, $profileTypes, $postTypes)
+    public function generateClientAuthorizationRequest(Model\Server\ServerInterface $server, Model\App\ClientAppInterface $clientApp, $redirectUri, $scopes, $profileInfoTypes, $postTypes)
     {
         list ($apiRoot) = $server->servers();
 
@@ -39,7 +39,7 @@ class Apps
             'redirect_uri' => $redirectUri,
             'scope' => implode(',', $scopes),
             'state' => $state,
-            'tent_profile_info_types' => implode(',', $profileTypes),
+            'tent_profile_info_types' => implode(',', $profileInfoTypes),
             'tent_post_types' => implode(',', $postTypes),
         );
 

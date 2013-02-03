@@ -17,22 +17,22 @@ $client = $clientFactory->create();
 // Find the Server (Entity container)
 $server = $client->discover($entityUri);
 
-echo "Available Types:\n";
-print_r($server->entity()->profile()->types());
+echo "Available Profile Info Types:\n";
+print_r($server->entity()->profileInfoTypes());
 echo "\n";
 
-$coreProfile = $server->entity()->profile()->find(
+$coreProfileInfo = $server->entity()->findProfileInfo(
     'https://tent.io/types/info/core/v0.1.0'
 );
 
-echo "Core Profile:\n";
-print_r($coreProfile->content());
+echo "Core Profile Info:\n";
+print_r($coreProfileInfo->content());
 echo "\n";
 
-$basicProfile = $server->entity()->profile()->find(
+$basicProfileInfo = $server->entity()->findProfileInfo(
     'https://tent.io/types/info/basic/v0.1.0'
 );
 
-echo "Basic Profile:\n";
-print_r($basicProfile->content());
+echo "Basic Profile Info:\n";
+print_r($basicProfileInfo->content());
 echo "\n";

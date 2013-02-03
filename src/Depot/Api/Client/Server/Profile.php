@@ -21,14 +21,14 @@ class Profile
         return ServerHelper::tryAllServers($server, array($this, 'getProfileInternal'));
     }
 
-    public function getProfileType(Model\Server\ServerInterface $server, $type)
+    public function getProfileInfo(Model\Server\ServerInterface $server, $type)
     {
-        return ServerHelper::tryAllServers($server, array($this, 'getProfileTypeInternal'), array($type));
+        return ServerHelper::tryAllServers($server, array($this, 'getProfileInfoInternal'), array($type));
     }
 
-    public function putProfileType(Model\Server\ServerInterface $server, Model\Entity\ProfileTypeInterface $profileType)
+    public function putProfileInfo(Model\Server\ServerInterface $server, Model\Entity\ProfileInfoInterface $profileInfo)
     {
-        return ServerHelper::tryAllServers($server, array($this, 'putProfileTypeInternal'), array($profileType));
+        return ServerHelper::tryAllServers($server, array($this, 'putProfileInfoInternal'), array($profileInfo));
     }
 
     public function getProfileInternal(Model\Server\ServerInterface $server, $apiRoot)
@@ -52,30 +52,30 @@ class Profile
         return $profile;
     }
 
-    public function getProfileTypeInternal(Model\Server\ServerInterface $server, $apiRoot, $type)
+    public function getProfileInfoInternal(Model\Server\ServerInterface $server, $apiRoot, $type)
     {
         $response = $this->tentHttpClient->get($apiRoot.'/profile/'.rawurlencode($type));
 
-        $profileType = new Model\Entity\ProfileType($type, json_decode($response->body(), true));
+        $profileInfo = new Model\Entity\ProfileInfo($type, json_decode($response->body(), true));
 
-        $server->entity()->profile()->set($profileType);
+        $server->entity()->profile()->set($profileInfo);
 
-        return $profileType;
+        return $profileInfo;
     }
 
-    public function putProfileTypeInternal(Model\Server\ServerInterface $server, $apiRoot, Model\Entity\ProfileTypeInterface $profileType)
+    public function putProfileInfoInternal(Model\Server\ServerInterface $server, $apiRoot, Model\Entity\ProfileInfoInterface $profileInfo)
     {
         $response = $this->tentHttpClient->put(
-            $apiRoot.'/profile/'.rawurlencode($profileType->uri()),
+            $apiRoot.'/profile/'.rawurlencode($profileInfo->uri()),
             null,
-            json_encode($profileType->content())
+            json_encode($profileInfo->content())
         );
 
-        $profileType = new Model\Entity\ProfileType($profileType->uri(), json_decode($response->body(), true));
+        $profileInfo = new Model\Entity\ProfileInfo($profileInfo->uri(), json_decode($response->body(), true));
 
-        $server->entity()->profile()->set($profileType);
+        $server->entity()->profile()->set($profileInfo);
 
-        return $profileType;
+        return $profileInfo;
     }
 
     public static function createProfileFromJson($json)
@@ -90,7 +90,7 @@ class Profile
 
         $profile = new Model\Entity\Profile;
         foreach ($json as $type => $content) {
-            $profile->set(new Model\Entity\ProfileType($type, $content));
+            $profile->set(new Model\Entity\ProfileInfo($type, $content));
         }
 
         return $profile;

@@ -12,8 +12,8 @@ class JsonRenderer implements JsonRendererInterface
             new Renderer\Apps\AppRegistrationCreationResponseRenderer,
             new Renderer\Apps\AppRegistrationResponseRenderer,
 
-            new Renderer\Profile\ProfileRenderer,
-            new Renderer\Profile\ProfileTypeRenderer,
+            new Renderer\Entity\EntityRenderer,
+            new Renderer\Entity\ProfileInfoRenderer,
         );
     }
 

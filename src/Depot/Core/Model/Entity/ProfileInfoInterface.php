@@ -2,7 +2,7 @@
 
 namespace Depot\Core\Model\Entity;
 
-interface ProfileTypeInterface
+interface ProfileInfoInterface
 {
     public function uri();
     public function content();

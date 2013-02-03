@@ -2,7 +2,7 @@
 
 namespace Depot\Core\Model\Entity;
 
-class ProfileType implements ProfileTypeInterface
+class ProfileInfo implements ProfileInfoInterface
 {
     protected $uri;
 
