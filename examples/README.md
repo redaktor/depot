@@ -1,7 +1,7 @@
 Depot Examples
 ==============
 
-Depot is a PHP implementation of the [Tent][1] protocol. This
+Depot is a PHP framework for the [Tent protocol][1]. this
 directory contains a small set of example applications to
 showcase Depot's functionality.
 
