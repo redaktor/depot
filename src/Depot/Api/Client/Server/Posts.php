@@ -23,6 +23,16 @@ class Posts
         return ServerHelper::tryAllServers($server, array($this, 'getPostsInternal'), array($postCriteria));
     }
 
+    public function getPost(Model\Server\ServerInterface $server, $id, $version = null)
+    {
+        return ServerHelper::tryAllServers($server, array($this, 'getPostInternal'), array($id, $version));
+    }
+
+    public function getEntityPost(Model\Server\ServerInterface $server, $entityUri, $id, $version = null)
+    {
+        return ServerHelper::tryAllServers($server, array($this, 'getEntityPostInternal'), array($entityUri, $id, $version));
+    }
+
     public function getPostsInternal(Model\Server\ServerInterface $server, $apiRoot, Model\Post\PostCriteria $postCriteria = null)
     {
         $requestParams = array();
@@ -185,5 +195,71 @@ class Posts
         }
 
         return $postListResponse;
+    }
+
+    public function getPostInternal(Model\Server\ServerInterface $server, $apiRoot, $id, $version = null)
+    {
+        $requestParams = array();
+
+        if (null !== $version) {
+            $requestParams['version'] = $version;
+        }
+
+        $requestQuery = count($requestParams)
+            ? '?'.http_build_query($requestParams)
+            : '';
+
+        $requestUri = $apiRoot.'/posts/'.$id.$requestQuery;
+        $response = $this->tentHttpClient->get($requestUri)->send();
+
+        $postJson = json_decode($response->getBody(), true);
+
+        return new Model\Post\Post(
+            $postJson['entity'],
+            $postJson['id'],
+            $postJson['type'],
+            $postJson['licenses'],
+            $postJson['permissions'],
+            $postJson['content'],
+            $postJson['published_at'],
+            $postJson['version'],
+            $postJson['app'],
+            $postJson['mentions'],
+            isset($postJson['updated_at']) ? $postJson['updated_at'] : null,
+            isset($postJson['received_at']) ? $postJson['received_at'] : null
+        );
+    }
+
+    public function getEntityPostInternal(Model\Server\ServerInterface $server, $apiRoot, $entityUri, $id, $version = null)
+    {
+        $requestParams = array();
+
+        if (null !== $version) {
+            $requestParams['version'] = $version;
+        }
+
+        $requestQuery = count($requestParams)
+            ? '?'.http_build_query($requestParams)
+            : '';
+
+        $requestUri = $apiRoot.'/posts/'.rawurlencode($entityUri).'/'.$id.$requestQuery;
+        $response = $this->tentHttpClient->get($requestUri)->send();
+
+        $postJson = json_decode($response->getBody(), true);
+
+        return new Model\Post\Post(
+            $postJson['entity'],
+            $postJson['id'],
+            $postJson['type'],
+            $postJson['licenses'],
+            $postJson['permissions'],
+            $postJson['content'],
+            $postJson['published_at'],
+            $postJson['version'],
+            $postJson['app'],
+            $postJson['mentions'],
+            isset($postJson['updated_at']) ? $postJson['updated_at'] : null,
+            isset($postJson['received_at']) ? $postJson['received_at'] : null
+        );
     }
 }

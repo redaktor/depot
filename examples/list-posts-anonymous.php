@@ -42,16 +42,16 @@ for ($i = 0; $i < 5; $i++ ) {
         $content = $post->content();
         switch($post->type()) {
             case 'https://tent.io/types/post/status/v0.1.0':
-                printf("\"\"\" ^%s: %s\n", $post->entityUri(), $content['text']);
+                printf("\"\"\" ^%s: %s <post:%s>\n", $post->entityUri(), $content['text'], $post->id());
                 break;
             case 'https://tent.io/types/post/follower/v0.1.0':
-                printf(">>> ^%s was followed by ^%s\n", $post->entityUri(), $content['entity']);
+                printf(">>> ^%s was followed by ^%s <post:%s>\n", $post->entityUri(), $content['entity'], $post->id());
                 break;
             case 'https://tent.io/types/post/repost/v0.1.0':
-                printf("<-> ^%s reposted post %s originally posted by ^%s\n", $post->entityUri(), $content['id'], $content['entity']);
+                printf("<-> ^%s reposted post %s originally posted by ^%s <post:%s>\n", $post->entityUri(), $content['id'], $content['entity'], $post->id());
                 break;
             default:
-                printf("<^%s> <%s>\n", $post->entityUri(), $post->type());
+                printf("<^%s> <%s> <post:%s>\n", $post->entityUri(), $post->type(), $post->id());
                 print_r($content);
                 break;
         }
