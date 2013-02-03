@@ -1,7 +1,7 @@
 Depot
 =====
 
-Depot is a PHP implementation of the [Tent][1] protocol.
+Depot is a PHP framework for the [Tent protocol][1].
 
 
 Installation
@@ -52,5 +52,5 @@ If you have questions or want to help out, join us in the
 
 [1]: https://tent.io
 [2]: https://packagist.org
-[3]: http://getcomposer.org/
+[3]: http://getcomposer.org
 
