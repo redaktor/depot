@@ -115,6 +115,7 @@ only posts of the requested type are displayed.
     php list-posts-anonymous.php https://depot-testapp.tent.is \
         https://tent.io/types/post/status/v0.1.0
 
+
 ### list-posts-authenticated.php [post_types,comma,separated]
 
 This script will connect to the server for the entity from `register-app.php`
@@ -127,6 +128,28 @@ Post types can be specified as an optional third argument. When specified
 only posts of the requested type are displayed.
 
     php list-posts-authenticated.php https://tent.io/types/post/status/v0.1.0
+
+
+### show-post-anonymous.php [entity_uri] [post_id] [version]
+
+This script will discover `[entity_uri]` and will display the post if it is
+found. Only posts from `[entity_uri]` will be able to be displayed.
+
+
+### show-post-authenticated.php [post_id] [version]
+
+This script will connect to the server for the entity from `register-app.php`
+and will display the post if it is found. Only posts from the registered
+entity will be able to be displayed.
+
+
+### show-post-for-another-entity-authenticated [entity_uri] [post_id] [version]
+
+This script will connect to the server for the entity from `register-app.php`
+and will display the post for the specified `[entity_uri]` if it is found.
+
+Only posts that have already been delivered to the registered entity will
+be able to be displayed.
 
 
 Community
