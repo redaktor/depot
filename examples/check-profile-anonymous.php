@@ -17,6 +17,10 @@ $client = $clientFactory->create();
 // Find the Server (Entity container)
 $server = $client->discover($entityUri);
 
+echo "Canonical Entity URI:\n";
+echo $server->entity()->uri()."\n";
+echo "\n";
+
 echo "Available Profile Info Types:\n";
 print_r($server->entity()->profileInfoTypes());
 echo "\n";
