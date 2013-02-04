@@ -175,10 +175,10 @@ class Posts
                 $postJson['licenses'],
                 $postJson['permissions'],
                 $postJson['content'],
-                $postJson['published_at'],
                 $postJson['version'],
                 $postJson['app'],
                 $postJson['mentions'],
+                $postJson['published_at'],
                 isset($postJson['updated_at']) ? $postJson['updated_at'] : null,
                 isset($postJson['received_at']) ? $postJson['received_at'] : null
             );
@@ -221,10 +221,10 @@ class Posts
             $postJson['licenses'],
             $postJson['permissions'],
             $postJson['content'],
-            $postJson['published_at'],
             $postJson['version'],
             $postJson['app'],
             $postJson['mentions'],
+            $postJson['published_at'],
             isset($postJson['updated_at']) ? $postJson['updated_at'] : null,
             isset($postJson['received_at']) ? $postJson['received_at'] : null
         );
@@ -254,10 +254,10 @@ class Posts
             $postJson['licenses'],
             $postJson['permissions'],
             $postJson['content'],
-            $postJson['published_at'],
             $postJson['version'],
             $postJson['app'],
             $postJson['mentions'],
+            $postJson['published_at'],
             isset($postJson['updated_at']) ? $postJson['updated_at'] : null,
             isset($postJson['received_at']) ? $postJson['received_at'] : null
         );
