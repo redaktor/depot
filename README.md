@@ -54,16 +54,19 @@ Not Invented Here
 -----------------
 
 There are a handful of other PHP implementations of the Tent protocol, notably
-[TentPHP][4]. TentPHP will definitely make a better base for many client apps.
+[TentPHP][4].
 
-TentPHP has basic persistence via Doctrine DBAL built in and handles application
-authorization and user authentication state with sessions. It is streamlined for
-quickly rolling out a new Tent based client application with less fuss.
+TentPHP ships with persistence via Doctrine DBAL, handles application
+authorization and state, and handles user authentication and authorization. It
+is streamlined for quickly rolling out a new Tent based client application with
+less fuss.
 
-Depot, on the other hand, is more about making decisions on how you want to put
-your application together. There are still constraints, of course, but specifics
-like how a user (or, for that matter, that there will be users at all) are left
-to the application and where possible not dictated by Depot.
+Depot is more about making decisions on how you want to put your application
+together. Depot also offers an API server interface in addition to an API client
+interface.
+
+TentPHP will definitely make a better base for many *client* apps. The benefits
+are many and are spelled out quite clearly on the [TentPHP][4] project page.
 
 
 [1]: https://tent.io
