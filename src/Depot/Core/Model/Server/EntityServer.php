@@ -4,7 +4,7 @@ namespace Depot\Core\Model\Server;
 
 use Depot\Core\Model\Entity\EntityInterface;
 
-class Server implements ServerInterface
+class EntityServer implements ServerInterface
 {
     protected $entity;
 

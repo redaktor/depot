@@ -33,19 +33,23 @@ class Profile
 
     public function getProfileInternal(Model\Server\ServerInterface $server, $apiRoot)
     {
-        $response = $this->tentHttpClient->get($apiRoot.'/profile');
+        $response = $this->tentHttpClient->get($apiRoot.'/profile')->send();
 
-        $profile = static::createProfileFromJson(json_decode($response->body(), true));
+        $profile = static::createProfileFromJson(json_decode($response->getBody(), true));
 
         $newTypes = array();
         foreach ($profile->types() as $type) {
             $newTypes[$type] = true;
-            $server->entity()->profile()->set($profile->find($type));
+            if ($server instanceof Model\Server\EntityServer) {
+                $server->entity()->profile()->set($profile->find($type));
+            }
         }
 
-        foreach ($server->entity()->profile()->types() as $type) {
-            if (! isset($newTypes[$type])) {
-                $server->entity()->profile()->remove($type);
+        if ($server instanceof Model\Server\EntityServer) {
+            foreach ($server->entity()->profile()->types() as $type) {
+                if (! isset($newTypes[$type])) {
+                    $server->entity()->profile()->remove($type);
+                }
             }
         }
 
@@ -58,7 +62,9 @@ class Profile
 
         $profileInfo = new Model\Entity\ProfileInfo($type, json_decode($response->body(), true));
 
-        $server->entity()->profile()->set($profileInfo);
+        if ($server instanceof Model\Server\EntityServer) {
+            $server->entity()->profile()->set($profileInfo);
+        }
 
         return $profileInfo;
     }
@@ -73,7 +79,9 @@ class Profile
 
         $profileInfo = new Model\Entity\ProfileInfo($profileInfo->uri(), json_decode($response->body(), true));
 
-        $server->entity()->profile()->set($profileInfo);
+        if ($server instanceof Model\Server\EntityServer) {
+            $server->entity()->profile()->set($profileInfo);
+        }
 
         return $profileInfo;
     }

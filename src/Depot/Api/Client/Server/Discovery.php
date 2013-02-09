@@ -46,7 +46,7 @@ class Discovery
 
                 $entity = new Model\Entity\Entity($profile);
 
-                return new Model\Server\Server($entity);
+                return new Model\Server\EntityServer($entity);
             } catch (\Exception $e) {
                 // Ignore this (for now; we want to try all profiles)
                 continue;
