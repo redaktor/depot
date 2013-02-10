@@ -4,22 +4,22 @@ namespace Depot\Api\Server\Symfony\Controller\Profile;
 
 use Depot\Api\Server\Symfony\ResponseFactory;
 use Depot\Core\Model;
-use Depot\Core\Service\Json\JsonRendererInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class GetProfileController
 {
-    protected $jsonRenderer;
+    protected $serializer;
     protected $entityRepository;
     protected $responseFactory;
 
     public function __construct(
-        JsonRendererInterface $jsonRenderer,
+        SerializerInterface $serializer,
         Model\Entity\EntityRepositoryInterface $entityRepository,
         ResponseFactory $responseFactory = null
     )
     {
-        $this->jsonRenderer = $jsonRenderer;
+        $this->serializer = $serializer;
         $this->entityRepository = $entityRepository;
         $this->responseFactory = $responseFactory ?: new ResponseFactory;
     }
@@ -31,7 +31,7 @@ class GetProfileController
         $entity = $this->entityRepository->findByUri($entityUri);
 
         return $this->responseFactory->createTentJsonResponse(
-            $this->jsonRenderer->render($entity)
+            $this->serializer->serialize($entity, 'json')
         );
     }
 }

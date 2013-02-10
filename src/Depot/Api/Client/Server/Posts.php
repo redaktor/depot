@@ -7,13 +7,16 @@ use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Api\Client\HttpClient\TentHttpClient;
 use Depot\Core\Model;
 use Depot\Core\Service\Random\RandomInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class Posts
 {
+    protected $serializer;
     protected $httpClient;
 
-    public function __construct(HttpClientInterface $httpClient)
+    public function __construct(SerializerInterface $serializer, HttpClientInterface $httpClient)
     {
+        $this->serializer = $serializer;
         $this->httpClient = $httpClient;
         $this->tentHttpClient = new TentHttpClient($httpClient);
     }

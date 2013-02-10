@@ -136,7 +136,7 @@ abstract class AbstractHttpClientDecorator implements HttpClientInterface
         return $this->httpClient->post(
             $uri,
             $this->massageHeaders('POST', $uri, $headers),
-            $body
+            $postBody
         );
     }
 

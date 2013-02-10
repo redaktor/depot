@@ -5,13 +5,16 @@ namespace Depot\Api\Client\Server;
 use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Core\Model;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class Discovery
 {
+    protected $serializer;
     protected $httpClient;
 
-    public function __construct(HttpClientInterface $httpClient)
+    public function __construct(SerializerInterface $serializer, HttpClientInterface $httpClient)
     {
+        $this->serializer = $serializer;
         $this->httpClient = $httpClient;
     }
 
@@ -36,15 +39,11 @@ class Discovery
                     continue;
                 }
 
-                $json = json_decode($response->getBody(), true);
-
-                $profile = Profile::createProfileFromJson($json);
-
-                if (null === $profile) {
-                    continue;
-                }
-
-                $entity = new Model\Entity\Entity($profile);
+                $entity = $this->serializer->deserialize(
+                    $response->getBody(),
+                    'Depot\Core\Model\Entity\EntityInterface',
+                    'json'
+                );
 
                 return new Model\Server\EntityServer($entity);
             } catch (\Exception $e) {

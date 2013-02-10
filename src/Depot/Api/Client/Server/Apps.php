@@ -7,16 +7,19 @@ use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Api\Client\HttpClient\TentHttpClient;
 use Depot\Core\Model;
 use Depot\Core\Service\Random\RandomInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class Apps
 {
+    protected $serializer;
     protected $rawHttpClient;
     protected $httpClient;
     protected $authFactory;
     protected $random;
 
-    public function __construct(HttpClientInterface $httpClient, Model\Auth\AuthFactory $authFactory, RandomInterface $random)
+    public function __construct(SerializerInterface $serializer, HttpClientInterface $httpClient, Model\Auth\AuthFactory $authFactory, RandomInterface $random)
     {
+        $this->serializer = $serializer;
         $this->httpClient = $httpClient;
         $this->tentHttpClient = new TentHttpClient($httpClient);
         $this->authFactory = $authFactory;
@@ -92,40 +95,14 @@ class Apps
 
     public function registerInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\AppInterface $app)
     {
-        $payload = array(
-            'name' => $app->name(),
-            'description' => $app->description(),
-            'url' => $app->url(),
-            'icon' => $app->icon(),
-            'redirect_uris' => $app->redirectUris(),
-            'scopes' => $app->scopes(),
-        );
+        $payload = $this->serializer->serialize($app, 'json');
 
-        $response = $this->tentHttpClient->post($apiRoot.'/apps', null, json_encode($payload))->send();
+        $response = $this->tentHttpClient->post($apiRoot.'/apps', null, $payload)->send();
 
-        $json = json_decode($response->getBody(), true);
-
-        $app = new Model\App\App(
-            $json['name'],
-            $json['description'],
-            $json['url'],
-            $json['icon'],
-            $json['redirect_uris'],
-            $json['scopes']
-        );
-
-        $auth = $this->authFactory->create(
-            $json['mac_key_id'],
-            $json['mac_key'],
-            $json['mac_algorithm']
-        );
-
-        return new Model\App\AppRegistrationCreationResponse(
-            $json['id'],
-            $app,
-            $auth,
-            $json['authorizations'],
-            $json['created_at']
+        return $this->serializer->deserialize(
+            $response->getBody(),
+            'Depot\Core\Model\App\AppRegistrationCreationResponse',
+            'json'
         );
     }
 
@@ -133,60 +110,33 @@ class Apps
     {
         $response = $this->tentHttpClient->get($apiRoot.'/apps/'.$clientApp->id())->send();
 
-        $json = json_decode($response->getBody(), true);
-
-        $app = new Model\App\App(
-            $json['name'],
-            $json['description'],
-            $json['url'],
-            $json['icon'],
-            $json['redirect_uris'],
-            $json['scopes']
+        $appRegistrationResponse = $this->serializer->deserialize(
+            $response->getBody(),
+            'Depot\Core\Model\App\AppRegistrationResponse',
+            'json'
         );
 
-        $clientApp->replaceApp($app);
+        $clientApp->replaceApp($appRegistrationResponse->app());
 
-        return new Model\App\AppRegistrationResponse(
-            $json['id'],
-            $app,
-            $json['authorizations'],
-            $json['created_at']
-        );
+        return $appRegistrationResponse;
     }
 
     public function putAppsInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\ClientAppInterface $clientApp)
     {
         $app = $clientApp->app();
 
-        $payload = array(
-            'name' => $app->name(),
-            'description' => $app->description(),
-            'url' => $app->url(),
-            'icon' => $app->icon(),
-            'redirect_uris' => $app->redirectUris(),
-            'scopes' => $app->scopes(),
+        $payload = $this->serializer->serialize($app, 'json');
+
+        $response = $this->tentHttpClient->put($apiRoot.'/apps/'.$clientApp->id(), null, $payload)->send();
+
+        $appRegistrationResponse = $this->serializer->deserialize(
+            $response->getBody(),
+            'Depot\Core\Model\App\AppRegistrationResponse',
+            'json'
         );
 
-        $response = $this->tentHttpClient->put($apiRoot.'/apps/'.$clientApp->id(), null, json_encode($payload))->send();
+        $clientApp->replaceApp($appRegistrationResponse->app());
 
-        $json = json_decode($response->getBody(), true);
-
-        $app = new Model\App\App(
-            $json['name'],
-            $json['description'],
-            $json['url'],
-            $json['icon'],
-            $json['redirect_uris'],
-            $json['scopes']
-        );
-
-        $clientApp->replaceApp($app);
-
-        return new Model\App\AppRegistrationResponse(
-            $json['id'],
-            $app,
-            $json['authorizations'],
-            $json['created_at']
-        );
+        return $appRegistrationResponse;
     }
 }
