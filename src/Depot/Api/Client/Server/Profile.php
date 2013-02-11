@@ -5,7 +5,7 @@ namespace Depot\Api\Client\Server;
 use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Api\Client\HttpClient\TentHttpClient;
 use Depot\Core\Model;
-use Symfony\Component\Serializer\SerializerInterface;
+use Depot\Core\Service\Serializer\SerializerInterface;
 
 class Profile
 {

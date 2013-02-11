@@ -4,8 +4,8 @@ namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Core\Model;
+use Depot\Core\Service\Serializer\SerializerInterface;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class Discovery
 {
@@ -41,8 +41,7 @@ class Discovery
 
                 $entity = $this->serializer->deserialize(
                     $response->getBody(),
-                    'Depot\Core\Model\Entity\EntityInterface',
-                    'json'
+                    'Depot\Core\Model\Entity\EntityInterface'
                 );
 
                 return new Model\Server\EntityServer($entity);

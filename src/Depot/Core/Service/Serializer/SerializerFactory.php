@@ -3,8 +3,8 @@
 namespace Depot\Core\Service\Serializer;
 
 use Depot\Core\Model;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer as SymfonySerializerImpl;
 
 class SerializerFactory
 {
@@ -17,7 +17,7 @@ class SerializerFactory
 
     public function create()
     {
-        return new Serializer(array(
+        return new SymfonySerializer(new SymfonySerializerImpl(array(
             new Normalizer\Apps\AppNormalizer,
             new Normalizer\Apps\AppRegistrationCreationResponseNormalizer($this->authFactory),
             new Normalizer\Apps\AppRegistrationResponseNormalizer,
@@ -26,6 +26,6 @@ class SerializerFactory
             new Normalizer\Entity\ProfileNormalizer,
         ), array(
             'json' => new JsonEncoder,
-        ));
+        )));
     }
 }

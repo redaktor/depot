@@ -7,7 +7,7 @@ use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Api\Client\HttpClient\TentHttpClient;
 use Depot\Core\Model;
 use Depot\Core\Service\Random\RandomInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Depot\Core\Service\Serializer\SerializerInterface;
 
 class Apps
 {
@@ -95,14 +95,13 @@ class Apps
 
     public function registerInternal(Model\Server\ServerInterface $server, $apiRoot, Model\App\AppInterface $app)
     {
-        $payload = $this->serializer->serialize($app, 'json');
+        $payload = $this->serializer->serialize($app);
 
         $response = $this->tentHttpClient->post($apiRoot.'/apps', null, $payload)->send();
 
         return $this->serializer->deserialize(
             $response->getBody(),
-            'Depot\Core\Model\App\AppRegistrationCreationResponse',
-            'json'
+            'Depot\Core\Model\App\AppRegistrationCreationResponse'
         );
     }
 
@@ -112,8 +111,7 @@ class Apps
 
         $appRegistrationResponse = $this->serializer->deserialize(
             $response->getBody(),
-            'Depot\Core\Model\App\AppRegistrationResponse',
-            'json'
+            'Depot\Core\Model\App\AppRegistrationResponse'
         );
 
         $clientApp->replaceApp($appRegistrationResponse->app());
@@ -125,14 +123,13 @@ class Apps
     {
         $app = $clientApp->app();
 
-        $payload = $this->serializer->serialize($app, 'json');
+        $payload = $this->serializer->serialize($app);
 
         $response = $this->tentHttpClient->put($apiRoot.'/apps/'.$clientApp->id(), null, $payload)->send();
 
         $appRegistrationResponse = $this->serializer->deserialize(
             $response->getBody(),
-            'Depot\Core\Model\App\AppRegistrationResponse',
-            'json'
+            'Depot\Core\Model\App\AppRegistrationResponse'
         );
 
         $clientApp->replaceApp($appRegistrationResponse->app());
