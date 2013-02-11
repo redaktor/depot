@@ -11,8 +11,6 @@ class AppRegistrationResponseNormalizer extends SerializerAwareNormalizer implem
 {
     public function normalize($object, $format = null, array $context = array())
     {
-        $auth = $object->auth();
-
         return array_merge(
             $this->serializer->normalize($object->app(), $format, $context),
             array(
