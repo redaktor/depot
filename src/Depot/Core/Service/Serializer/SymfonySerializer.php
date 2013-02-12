@@ -22,4 +22,14 @@ class SymfonySerializer implements SerializerInterface
     {
         return $this->symfonySerializer->deserialize($data, $type, 'json', $context);
     }
+
+    public function normalize($data, array $context = array())
+    {
+        return $this->symfonySerializer->normalize($data, 'json', $context);
+    }
+
+    public function denormalize($data, $type, array $context = array())
+    {
+        return $this->symfonySerializer->denormalize($data, $type, 'json', $context);
+    }
 }
