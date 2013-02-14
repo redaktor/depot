@@ -7,17 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GetProfileController
 {
-    protected $entityRepository;
-
-    public function __construct(Model\Entity\EntityRepositoryInterface $entityRepository)
+    public function action(Model\Entity\EntityInterface $entity)
     {
-        $this->entityRepository = $entityRepository;
-    }
-
-    public function action(Request $request)
-    {
-        $entityUri = $request->attributes->get('depot.entity');
-
-        return $this->entityRepository->findByUri($entityUri);
+        return $entity;
     }
 }
