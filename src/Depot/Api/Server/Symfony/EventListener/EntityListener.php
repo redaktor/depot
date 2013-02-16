@@ -34,15 +34,15 @@ class EntityListener implements EventSubscriberInterface
 
         foreach ($r->getParameters() as $param) {
             if ($param->getClass() && $param->getClass()->implementsInterface('Depot\Core\Model\Entity\EntityInterface')) {
-                $attributes[$param->getName()] = true;
+                $attributes[] = $param->getName();
             } elseif ('entity' == $param->getName() && !$request->attributes->has('entity')) {
-                $attributes[$param->getName()] = true;
+                $attributes[] = $param->getName();
             }
         }
 
         if ($attributes) {
             $entity = $this->requestEntityResolver->resolveEntity($request);
-            foreach (array_keys($attributes) as $attribute) {
+            foreach (array_unique($attributes) as $attribute) {
                 $request->attributes->set($attribute, $entity);
             }
         }
