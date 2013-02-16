@@ -2,18 +2,18 @@
 
 namespace Depot\Api\Server\Symfony\EventListener;
 
-use Depot\Core\Model\Entity\EntityRepositoryInterface;
+use Depot\Api\Server\Symfony\RequestEntityResolver\RequestEntityResolverInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class EntityListener implements EventSubscriberInterface
 {
-    protected $entityRepository;
+    protected $requestEntityResolver;
 
-    public function __construct(EntityRepositoryInterface $entityRepository)
+    public function __construct(RequestEntityResolverInterface $requestEntityResolver)
     {
-        $this->entityRepository = $entityRepository;
+        $this->requestEntityResolver = $requestEntityResolver;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -30,17 +30,20 @@ class EntityListener implements EventSubscriberInterface
             $r = new \ReflectionFunction($controller);
         }
 
+        $attributes = array();
+
         foreach ($r->getParameters() as $param) {
             if ($param->getClass() && $param->getClass()->implementsInterface('Depot\Core\Model\Entity\EntityInterface')) {
-                $entity = $this->entityRepository->findByUri(
-                    $request->attributes->get('depot.entity')
-                );
-                $request->attributes->set($param->getName(), $entity);
-            } elseif (!$request->attributes->has('entity')) {
-                $entity = $this->entityRepository->findByUri(
-                    $request->attributes->get('depot.entity')
-                );
-                $request->attributes->set('entity', $entity);
+                $attributes[$param->getName()] = true;
+            } elseif ('entity' == $param->getName() && !$request->attributes->has('entity')) {
+                $attributes[$param->getName()] = true;
+            }
+        }
+
+        if ($attributes) {
+            $entity = $this->requestEntityResolver->resolveEntity($request);
+            foreach (array_keys($attributes) as $attribute) {
+                $request->attributes->set($attribute, $entity);
             }
         }
     }
