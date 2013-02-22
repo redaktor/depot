@@ -1,6 +1,6 @@
 <?php
 
-namespace Depot\Core\Service\Serializer\Normalizer\Apps;
+namespace Depot\Core\Service\Serializer\Normalizer\Model\App;
 
 use Depot\Core\Model;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;

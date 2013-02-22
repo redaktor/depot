@@ -2,53 +2,34 @@
 
 namespace Depot\Api\Server\Symfony\Controller\Apps;
 
-use Depot\Api\Server\Symfony\ResponseFactory;
+use Depot\Api\Dto;
 use Depot\Core\Model;
-use Depot\Core\Service\Json\JsonRendererInterface;
-use Depot\Core\Service\ServerApp\ServerAppCreator;
-use Symfony\Component\HttpFoundation\Request;
+use Depot\Core\Service\Serializer\SerializerInterface;
+use Depot\Core\Service\ServerAppCreator\ServerAppCreatorInterface;
 
 class RegistrationController
 {
-    protected $jsonRenderer;
-    protected $session;
-    protected $appFactory;
-    protected $createServerAppService;
-    protected $responseFactory;
-
     public function __construct(
-        JsonRendererInterface $jsonRenderer,
+        SerializerInterface $serializer,
         Model\SessionInterface $session,
-        Model\App\AppFactory $appFactory,
-        ServerAppCreator $serverAppCreator,
-        ResponseFactory $responseFactory = null
+        ServerAppCreatorInterface $serverAppCreator
     )
     {
-        $this->jsonRenderer = $jsonRenderer;
+        $this->serializer = $serializer;
         $this->session = $session;
-        $this->appFactory = $appFactory;
         $this->serverAppCreator = $serverAppCreator;
-        $this->responseFactory = $responseFactory ?: new ResponseFactory;
     }
 
-    public function registerAction(Request $request)
+    public function action(Request $request)
     {
-        $app = $this->appFactory->createFromJsonString($request->getContent());
+        $app = $this->serializer->deserialize($request->getContent());
 
-        $serverApp = $this->serverAppCreator->create($app);
+        $serverAppCreator = $this->serverAppCreator;
 
-        $this->session->store($serverApp)->flush();
+        return $this->session->transactional(function() use ($serverAppCreator, $app) {
+            $serverApp = $this->serverAppCreator->create($app);
 
-        return $this->responseFactory->createTentJsonResponse(
-            $this->jsonRenderer->render(
-                new Model\App\AppRegistrationCreationResponse(
-                    $serverApp->id(),
-                    $serverApp->app(),
-                    $serverApp->auth(),
-                    $serverApp->minimumAuthorizations(),
-                    $serverApp->createdAt()
-                )
-            )
-        );
+            return Dto\App\AppCreationResponse::createFromServerApp($serverApp);
+        });
     }
 }

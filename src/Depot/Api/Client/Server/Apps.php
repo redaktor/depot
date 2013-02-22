@@ -5,6 +5,7 @@ namespace Depot\Api\Client\Server;
 use Depot\Api\Client\HttpClient\AuthenticatedHttpClient;
 use Depot\Api\Client\HttpClient\HttpClientInterface;
 use Depot\Api\Client\HttpClient\TentHttpClient;
+use Depot\Api\Common\Dto;
 use Depot\Core\Model;
 use Depot\Core\Service\Random\RandomInterface;
 use Depot\Core\Service\Serializer\SerializerInterface;
@@ -46,7 +47,7 @@ class Apps
             'tent_post_types' => implode(',', $postTypes),
         );
 
-        return new Model\App\ClientAuthorizationRequest(
+        return new Dto\App\ClientAuthorizationRequest(
             $clientApp,
             $state,
             $apiRoot.'/oauth/authorize?'.http_build_query($params)
@@ -70,7 +71,7 @@ class Apps
 
         $json = json_decode($response->getBody(), true);
 
-        return new Model\App\ClientAuthorizationResponse(
+        return new Dto\App\ClientAuthorizationResponse(
             $clientApp,
             $this->authFactory->create(
                 $json['access_token'],
@@ -101,7 +102,7 @@ class Apps
 
         return $this->serializer->deserialize(
             $response->getBody(),
-            'Depot\Core\Model\App\AppRegistrationCreationResponse'
+            'Depot\Api\Common\Dto\App\AppCreationResponse'
         );
     }
 
@@ -111,7 +112,7 @@ class Apps
 
         $appRegistrationResponse = $this->serializer->deserialize(
             $response->getBody(),
-            'Depot\Core\Model\App\AppRegistrationResponse'
+            'Depot\Api\Common\Dto\App\AppResponse'
         );
 
         $clientApp->replaceApp($appRegistrationResponse->app());
@@ -129,7 +130,7 @@ class Apps
 
         $appRegistrationResponse = $this->serializer->deserialize(
             $response->getBody(),
-            'Depot\Core\Model\App\AppRegistrationResponse'
+            'Depot\Api\Common\Dto\App\AppResponse'
         );
 
         $clientApp->replaceApp($appRegistrationResponse->app());

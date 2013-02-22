@@ -1,13 +1,13 @@
 <?php
 
-namespace Depot\Core\Service\Serializer\Normalizer\Apps;
+namespace Depot\Core\Service\Serializer\Normalizer\Dto\App;
 
-use Depot\Core\Model;
+use Depot\Api\Common\Dto;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
 
-class AppRegistrationResponseNormalizer extends SerializerAwareNormalizer implements NormalizerInterface, DenormalizerInterface
+class AppResponseNormalizer extends SerializerAwareNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function normalize($object, $format = null, array $context = array())
     {
@@ -31,7 +31,7 @@ class AppRegistrationResponseNormalizer extends SerializerAwareNormalizer implem
             $context
         );
 
-        return new Model\App\AppRegistrationResponse(
+        return new Dto\App\AppRegistrationResponse(
             $data['id'],
             $app,
             $data['authorizations'],
@@ -41,11 +41,11 @@ class AppRegistrationResponseNormalizer extends SerializerAwareNormalizer implem
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof Model\App\AppRegistrationResponse;
+        return $data instanceof Dto\App\AppRegistrationResponse;
     }
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return 'Depot\Core\Model\App\AppRegistrationResponse' === $type;
+        return 'Depot\Api\Common\Dto\App\AppRegistrationResponse' === $type;
     }
 }

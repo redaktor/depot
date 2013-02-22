@@ -18,12 +18,13 @@ class SerializerFactory
     public function create()
     {
         return new SymfonySerializer(new SymfonySerializerImpl(array(
-            new Normalizer\Apps\AppNormalizer,
-            new Normalizer\Apps\AppRegistrationCreationResponseNormalizer($this->authFactory),
-            new Normalizer\Apps\AppRegistrationResponseNormalizer,
-            new Normalizer\Entity\EntityNormalizer,
-            new Normalizer\Entity\ProfileInfoNormalizer,
-            new Normalizer\Entity\ProfileNormalizer,
+            new Normalizer\Dto\App\AppCreationResponseNormalizer($this->authFactory),
+            new Normalizer\Dto\App\AppResponseNormalizer,
+
+            new Normalizer\Model\App\AppNormalizer,
+            new Normalizer\Model\Entity\EntityNormalizer,
+            new Normalizer\Model\Entity\ProfileInfoNormalizer,
+            new Normalizer\Model\Entity\ProfileNormalizer,
         ), array(
             'json' => new JsonEncoder,
         )));

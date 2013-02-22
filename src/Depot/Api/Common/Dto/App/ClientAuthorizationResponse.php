@@ -1,7 +1,8 @@
 <?php
 
-namespace Depot\Core\Model\App;
+namespace Depot\Api\Common\Dto\App;
 
+use Depot\Core\Model\App\ClientAppInterface;
 use Depot\Core\Model\Auth\AuthInterface;
 
 class ClientAuthorizationResponse

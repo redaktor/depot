@@ -1,13 +1,14 @@
 <?php
 
-namespace Depot\Core\Service\Serializer\Normalizer\Apps;
+namespace Depot\Core\Service\Serializer\Normalizer\Dto\App;
 
+use Depot\Api\Common\Dto;
 use Depot\Core\Model;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
 
-class AppRegistrationCreationResponseNormalizer extends SerializerAwareNormalizer implements NormalizerInterface, DenormalizerInterface
+class AppCreationResponseNormalizer extends SerializerAwareNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     protected $authFactory;
 
@@ -50,7 +51,7 @@ class AppRegistrationCreationResponseNormalizer extends SerializerAwareNormalize
             $data['mac_algorithm']
         );
 
-        return new Model\App\AppRegistrationCreationResponse(
+        return new Dto\App\AppCreationResponse(
             $data['id'],
             $app,
             $auth,
@@ -61,11 +62,11 @@ class AppRegistrationCreationResponseNormalizer extends SerializerAwareNormalize
 
     public function supportsNormalization($data, $format = null)
     {
-        return $data instanceof Model\App\AppRegistrationCreationResponse;
+        return $data instanceof Dto\App\AppCreationResponse;
     }
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return 'Depot\Core\Model\App\AppRegistrationCreationResponse' === $type;
+        return 'Depot\Api\Common\Dto\App\AppCreationResponse' === $type;
     }
 }
