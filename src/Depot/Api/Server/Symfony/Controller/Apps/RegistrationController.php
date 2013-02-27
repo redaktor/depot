@@ -3,20 +3,20 @@
 namespace Depot\Api\Server\Symfony\Controller\Apps;
 
 use Depot\Api\Dto;
-use Depot\Core\Model;
 use Depot\Core\Service\Serializer\SerializerInterface;
-use Depot\Core\Service\ServerAppCreator\ServerAppCreatorInterface;
+use Depot\Core\Service\ServerApp\ServerAppCreatorInterface;
 
 class RegistrationController
 {
+    protected $serializer;
+    protected $serverAppCreator;
+
     public function __construct(
         SerializerInterface $serializer,
-        Model\SessionInterface $session,
         ServerAppCreatorInterface $serverAppCreator
     )
     {
         $this->serializer = $serializer;
-        $this->session = $session;
         $this->serverAppCreator = $serverAppCreator;
     }
 
@@ -24,12 +24,8 @@ class RegistrationController
     {
         $app = $this->serializer->deserialize($request->getContent());
 
-        $serverAppCreator = $this->serverAppCreator;
-
-        return $this->session->transactional(function() use ($serverAppCreator, $app) {
-            $serverApp = $this->serverAppCreator->create($app);
-
-            return Dto\App\AppCreationResponse::createFromServerApp($serverApp);
-        });
+        return Dto\App\AppCreationResponse::createFromServerApp(
+            $this->serverAppCreator->createServerApp($app)
+        );
     }
 }
