@@ -95,9 +95,11 @@ class Posts
         $nextCriteria = null;
         $previousCriteria = null;
 
-        $links = $response->hasHeader('link')
-            ? $response->getHeader('link')
-            : array();
+        $links = array();
+        if ($response->hasHeader('link')) {
+            $linkHeader = $response->getHeader('link');
+            $links = explode($linkHeader->getGlue(), $linkHeader);
+        }
 
         foreach ($links as $link) {
 
