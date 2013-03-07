@@ -95,14 +95,7 @@ class Posts
         $nextCriteria = null;
         $previousCriteria = null;
 
-        $links = array();
-        if ($response->hasHeader('link')) {
-            $linkHeader = $response->getHeader('link');
-            $links = explode($linkHeader->getGlue(), $linkHeader);
-        }
-
-        foreach ($links as $link) {
-
+        foreach ($response->getHeader('Link')->normalize(true) as $link) {
             if (preg_match('/<.+\?(.+?)>; rel="(prev|next)"/', $link, $matches)) {
                 list ($fullMatch, $urlParams, $relationship) = $matches;
 
