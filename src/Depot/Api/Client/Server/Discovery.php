@@ -3,6 +3,7 @@
 namespace Depot\Api\Client\Server;
 
 use Depot\Api\Client\HttpClient\HttpClientInterface;
+use Depot\Api\Client\HttpClient\TentHttpClient;
 use Depot\Core\Model;
 use Depot\Core\Service\Serializer\SerializerInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -11,11 +12,13 @@ class Discovery
 {
     protected $serializer;
     protected $httpClient;
+    protected $tentHttpClient;
 
     public function __construct(SerializerInterface $serializer, HttpClientInterface $httpClient)
     {
         $this->serializer = $serializer;
         $this->httpClient = $httpClient;
+        $this->tentHttpClient = new TentHttpClient($httpClient);
     }
 
     public function discover($uri)
@@ -33,7 +36,7 @@ class Discovery
         foreach ($profileUris as $profileUri) {
             try {
                 try {
-                    $response = $this->httpClient->get($profileUri)->send();
+                    $response = $this->tentHttpClient->get($profileUri)->send();
                 } catch (\Exception $e) {
                     // Ignore this (for now; might simply be down)
                     continue;
