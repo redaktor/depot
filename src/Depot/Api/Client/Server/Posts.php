@@ -35,6 +35,11 @@ class Posts
     {
         return ServerHelper::tryAllServers($server, array($this, 'getEntityPostInternal'), array($entityUri, $id, $version));
     }
+    
+    public function postPost(Model\Server\ServerInterface $server, $type, $permissions = NULL, $licenses = NULL, $content = NULL, $attachmentFile = NULL)
+    {
+        return ServerHelper::tryAllServers($server, array($this, 'postPostInternal'), array($type, $permissions, $licenses, $content, $attachmentFile));
+    }
 
     public function getPostsInternal(Model\Server\ServerInterface $server, $apiRoot, Model\Post\PostCriteria $postCriteria = null)
     {
@@ -263,4 +268,45 @@ class Posts
             isset($postJson['received_at']) ? $postJson['received_at'] : null
         );
     }
+    public function postPostInternal(Model\Server\ServerInterface $server, $apiRoot, $_type, $permissions, $licenses, $content, $attachmentFile)
+    {    
+	
+        $requestUri = $apiRoot.'/posts';
+		
+		$type = 'https://tent.io/types/post/'. strtolower($_type) .'/v0.1.0';
+		// TODO we might need a switch here when post type versions differ - we should be responsible for always supporting recent versions ...
+		
+		$post = array(
+			'entity' => $appConfig['entity'],
+            'type' => $type,
+            'licences' => $licenses,
+            'permissions' => $permissions,
+            'content' => $content
+		);
+		
+		if (NULL !== $attachmentFile) {
+			$response = $this->tentHttpClient->post($requestUri,NULL,json_encode($post),$attachmentFile)->addPostFiles(array('file' => $attachmentFile))->send();
+	
+			var_export($response); 
+
+		} else {
+			$response = $this->tentHttpClient->post($requestUri,NULL,json_encode($post))->send();
+		}
+		
+		$postJson = $response->json();
+		return new Model\Post\Post(
+            $postJson['entity'],
+            $postJson['id'],
+            $postJson['type'],
+            $postJson['licenses'],
+            $postJson['permissions'],
+            $postJson['content'],
+            $postJson['version'],
+            $postJson['app'],
+            $postJson['mentions'],
+            $postJson['published_at'],
+            isset($postJson['updated_at']) ? $postJson['updated_at'] : NULL,
+            isset($postJson['received_at']) ? $postJson['received_at'] : NULL
+        );
+	}
 }
