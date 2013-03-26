@@ -268,15 +268,15 @@ class Posts
             isset($postJson['received_at']) ? $postJson['received_at'] : null
         );
     }
-	
+
     public function postPostInternal(Model\Server\ServerInterface $server, $apiRoot, $_type, $permissions, $licenses, $content, $attachmentFile)
-	{  
-	
+    {  
+
 		$requestUri = $apiRoot.'/posts';
-		
+
 		$type = 'https://tent.io/types/post/'. strtolower($_type) .'/v0.1.0';
 		// TODO we might need a switch here when post type versions differ - we should be responsible for always supporting recent versions ...
-		
+
 		$post = array(
 			'entity' => $appConfig['entity'],
 			'type' => $type,
@@ -284,16 +284,16 @@ class Posts
 			'permissions' => $permissions,
 			'content' => $content
 		);
-		
+
 		if (NULL !== $attachmentFile) {
 			$response = $this->tentHttpClient->post($requestUri,NULL,json_encode($post),$attachmentFile)->addPostFiles(array('file' => $attachmentFile))->send();
-	
+
 			var_export($response); 
 
 		} else {
 			$response = $this->tentHttpClient->post($requestUri,NULL,json_encode($post))->send();
 		}
-		
+
 		$postJson = $response->json();
 		return new Model\Post\Post(
 			$postJson['entity'],
