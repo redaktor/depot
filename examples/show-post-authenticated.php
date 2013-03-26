@@ -36,13 +36,13 @@ $auth = $authFactory->create($appConfig['authz_mac_key_id'], $appConfig['authz_m
 // Find the Server (Entity container)
 $server = $client->discover($appConfig['entity_uri']);
 
-$post = $client->posts()->getPost($server, $id, $version);
+$post = $client->authenticate($auth)->posts()->getPost($server, $id, $version);
 
 $content = $post->content();
 
 switch($post->type()) {
     case 'https://tent.io/types/post/status/v0.1.0':
-        printf("\"\"\" ^%s: %s <post:%s>\n", $post->entityUri(), $content['text'], $post->id());
+        printf("\"\"\" ^%s: %s <post:%s>\n", $post->entityUri(), utf8_decode($content['text']), $post->id());
         break;
     case 'https://tent.io/types/post/follower/v0.1.0':
         printf(">>> ^%s was followed by ^%s <post:%s>\n", $post->entityUri(), $content['entity'], $post->id());
