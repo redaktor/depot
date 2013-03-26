@@ -269,7 +269,7 @@ class Posts
         );
     }
 	
-	public function postPostInternal(Model\Server\ServerInterface $server, $apiRoot, $_type, $permissions, $licenses, $content, $attachmentFile)
+    public function postPostInternal(Model\Server\ServerInterface $server, $apiRoot, $_type, $permissions, $licenses, $content, $attachmentFile)
 	{  
 	
 		$requestUri = $apiRoot.'/posts';
