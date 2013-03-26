@@ -268,20 +268,21 @@ class Posts
             isset($postJson['received_at']) ? $postJson['received_at'] : null
         );
     }
-    public function postPostInternal(Model\Server\ServerInterface $server, $apiRoot, $_type, $permissions, $licenses, $content, $attachmentFile)
-    {    
 	
-        $requestUri = $apiRoot.'/posts';
+	public function postPostInternal(Model\Server\ServerInterface $server, $apiRoot, $_type, $permissions, $licenses, $content, $attachmentFile)
+	{  
+	
+		$requestUri = $apiRoot.'/posts';
 		
 		$type = 'https://tent.io/types/post/'. strtolower($_type) .'/v0.1.0';
 		// TODO we might need a switch here when post type versions differ - we should be responsible for always supporting recent versions ...
 		
 		$post = array(
 			'entity' => $appConfig['entity'],
-            'type' => $type,
-            'licences' => $licenses,
-            'permissions' => $permissions,
-            'content' => $content
+			'type' => $type,
+			'licences' => $licenses,
+			'permissions' => $permissions,
+			'content' => $content
 		);
 		
 		if (NULL !== $attachmentFile) {
@@ -295,18 +296,18 @@ class Posts
 		
 		$postJson = $response->json();
 		return new Model\Post\Post(
-            $postJson['entity'],
-            $postJson['id'],
-            $postJson['type'],
-            $postJson['licenses'],
-            $postJson['permissions'],
-            $postJson['content'],
-            $postJson['version'],
-            $postJson['app'],
-            $postJson['mentions'],
-            $postJson['published_at'],
-            isset($postJson['updated_at']) ? $postJson['updated_at'] : NULL,
-            isset($postJson['received_at']) ? $postJson['received_at'] : NULL
-        );
+			$postJson['entity'],
+			$postJson['id'],
+			$postJson['type'],
+			$postJson['licenses'],
+			$postJson['permissions'],
+			$postJson['content'],
+			$postJson['version'],
+			$postJson['app'],
+			$postJson['mentions'],
+			$postJson['published_at'],
+			isset($postJson['updated_at']) ? $postJson['updated_at'] : NULL,
+			isset($postJson['received_at']) ? $postJson['received_at'] : NULL
+		);
 	}
 }
