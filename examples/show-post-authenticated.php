@@ -1,5 +1,5 @@
 <?php
-
+header("Content-Type: text/html; charset=utf-8");
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Depot\Api\Client;
@@ -42,7 +42,7 @@ $content = $post->content();
 
 switch($post->type()) {
     case 'https://tent.io/types/post/status/v0.1.0':
-        printf("\"\"\" ^%s: %s <post:%s>\n", $post->entityUri(), utf8_decode($content['text']), $post->id());
+        printf("\"\"\" ^%s: %s <post:%s>\n", $post->entityUri(), $content['text'], $post->id());
         break;
     case 'https://tent.io/types/post/follower/v0.1.0':
         printf(">>> ^%s was followed by ^%s <post:%s>\n", $post->entityUri(), $content['entity'], $post->id());
