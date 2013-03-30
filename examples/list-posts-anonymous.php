@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../../../autoload.php';
 
 use Depot\Api\Client;
 
