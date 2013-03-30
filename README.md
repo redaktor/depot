@@ -1,6 +1,10 @@
 Depot
 =====
 
+note : this is just a fork of depot/depot to support tent 0.2 for globetrotter client
+when the tent 0.3 server will be ready, this will turn into a new project
+-------------------------------------------------------------------------------------
+
 Depot is a **PHP framework** for the **[Tent protocol][1]**. It manages data and
 relationships for Tent entities and provides the foundation for **building Tent
 clients** and **building Tent servers**.
