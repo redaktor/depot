@@ -1,5 +1,5 @@
 {
-    "name": "depot/depot",
+    "name": "redaktor/depot",
     "description": "A PHP Framework for the Tent Protocol",
     "homepage": "http://depot.io",
     "keywords": ["tent", "tent.io", "client", "server"],
